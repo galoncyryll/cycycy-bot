@@ -1,0 +1,22 @@
+{
+  "name": "cycycybot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@k3rn31p4nic/google-translate-api": "^1.0.5",
+    "discord.js": "^11.4.2",
+    "dotenv": "^6.2.0",
+    "ffmpeg": "0.0.4",
+    "mongoose": "^5.4.12",
+    "ms": "^2.1.1",
+    "opusscript": "0.0.6",
+    "wikijs": "^5.0.0-alpha.1",
+    "ytdl-core": "^0.29.1"
+  }
+}
