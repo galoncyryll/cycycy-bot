@@ -11,7 +11,7 @@ bot.cooldown = new Map();
 
 //Read commands directory
 module.exports = bot;
-const fsCommandReader = require('./fsCommandReader');
+require('./fsCommandReader');
 
 //Database
 const mongoose = require('mongoose');
@@ -44,6 +44,10 @@ bot.on('message', message => {
     const PepegaPls = bot.emojis.find(emoji => emoji.name === "PepegaPls").toString();
     const AYAYA = bot.emojis.find(emoji => emoji.name === "AYAYA").toString();
     const OMGScoots = bot.emojis.find(emoji => emoji.name === "OMGScoots").toString();
+    
+    // call command handler
+    let cmdFile = bot.commands.get(cmd.slice(prefix.length));
+    if (cmdFile && cmd.startsWith(prefix)) cmdFile.run(bot,message,args,NaM);
 
     //AFK checker
     Afk.findOne({ userID: message.author.id }).then(result => {
@@ -143,11 +147,6 @@ bot.on('message', message => {
         }).catch(console.log);
     };
 
-    
-    // call command handler
-    let cmdFile = bot.commands.get(cmd.slice(prefix.length));
-    if (cmdFile && cmd.startsWith(prefix)) cmdFile.run(bot,message,args,NaM);
-
     // test command
     if(cmd === `${prefix}test`) {
         if(!message.member.hasPermission('ADMINISTRATOR')) return message.reply(`You don't have a permission for this command. ${NaM}`);
@@ -173,7 +172,6 @@ bot.on('message', message => {
             .setThumbnail(aUser.user.displayAvatarURL);
         return message.channel.send(avatarEmbed);
     }
-
 
     // get rid of weebs NaM
     if(message.content.includes(AYAYA) || message.content.toUpperCase().includes("AYAYA")) {
