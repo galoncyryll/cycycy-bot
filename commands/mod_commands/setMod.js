@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Mod = require('../models/modDBtest');
+const Mod = require('../../models/modDBtest');
 
 module.exports.run = async (bot, message, args, NaM) => {
     if(!message.member.hasPermission("ADMINISTRATOR")) return message.reply(`You don't have permission for this command ${NaM}`);

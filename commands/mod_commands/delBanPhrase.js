@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const BanPhrase = require('../models/banPhraseDB');
+const BanPhrase = require('../../models/banPhraseDB');
 
 module.exports.run = async (bot, message, args, NaM) => {
     if(!message.member.hasPermission("KICK_MEMBERS")) return message.reply(`You don't have permission for this command ${NaM}`);

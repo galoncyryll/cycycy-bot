@@ -1,10 +1,17 @@
 const Discord = require('discord.js');
 const botconfig = require('./botconfig.json');
 const bot = new Discord.Client();
-const fs = require('fs');
 require('dotenv').config();
 
+//bot commands collection
 bot.commands = new Discord.Collection();
+
+//cookie command cooldown
+bot.cooldown = new Map();
+
+//Read commands directory
+module.exports = bot;
+const fsCommandReader = require('./fsCommandReader');
 
 //Database
 const mongoose = require('mongoose');
@@ -12,29 +19,9 @@ const Notify = require('./models/notifyDB');
 const Afk = require('./models/afkDB');
 const Cmd = require('./models/customCommandsDB');
 const BanPhrase = require('./models/banPhraseDB');
-//const Coins = require('./models/coinsDB');
-
-//Cooldown
-bot.cooldown = new Map();
 
 //connect to MongoDB Atlas
-mongoose.connect(process.env.DB_PASS);
-
-fs.readdir('./commands/', (err, files) => {
-    if(err) console.log(err);
-
-    let jsfile = files.filter(f => f.split('.').pop() === 'js')
-    if (jsfile.length <= 0) {
-        console.log('Couldn\'t find commands.');
-        return;
-    }
-
-    jsfile.forEach((f, i) => {
-        let props = require(`./commands/${f}`);
-        console.log(`${f} loaded!`);
-        bot.commands.set(props.help.name, props);
-    });
-});
+mongoose.connect(process.env.DB_PASS, { useNewUrlParser: true });
 
 bot.on('ready', async () => {
     console.log(`${bot.user.username} is online! on ${bot.guilds.size} servers!`);
@@ -70,6 +57,10 @@ bot.on('message', message => {
             let seconds = totalSecs % 60;
 
             message.channel.send(`<@${message.author.id}> is back: ${result.reason} (${hours}h, ${minutes}m and ${Math.trunc(seconds)}s ago)`);
+            //Checks if AFK type is gn or afk;
+            if( result.afkType == 'afk') return Afk.deleteOne({ userID: result.userID }).then(console.log).catch(console.log); 
+
+            //Proceeds if AFK type is gn
             if(hours >= 9) {
                 let afkEmbed = new Discord.RichEmbed()
                 .setColor('#f20000')
@@ -197,5 +188,6 @@ bot.on('message', message => {
         }).catch(console.log);
      }
 });
+
 
 bot.login(process.env.BOT_TOKEN);

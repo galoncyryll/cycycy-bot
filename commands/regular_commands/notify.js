@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Notify = require('../models/notifyDB');
+const Notify = require('../../models/notifyDB');
 
 module.exports.run = async (bot, message, args, NaM) => {
     let notifyUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));

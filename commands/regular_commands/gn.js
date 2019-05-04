@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Afk = require('../models/afkDB');
+const Afk = require('../../models/afkDB');
 
 module.exports.run = async (bot, message, args, NaM) => {
     let reason = args.join(' ');
@@ -11,7 +11,8 @@ module.exports.run = async (bot, message, args, NaM) => {
         _id: mongoose.Types.ObjectId(),
         userID: message.author.id,
         reason: reason,
-        date: new Date()
+        date: new Date(),
+        afkType: 'gn'
     });
 
     Afk.find({ userID: message.author.id }).then(res => {

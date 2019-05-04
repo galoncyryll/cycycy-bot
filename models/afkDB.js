@@ -4,7 +4,8 @@ const afkSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     userID: String,
     reason: String,
-    date: Date
+    date: Date,
+    afkType: String
 });
 
 
