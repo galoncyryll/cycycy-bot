@@ -1,5 +1,5 @@
 module.exports.run = async (bot, message, args, NaM) => {
-    if(!message.member.hasPermission("MANAGE_MESSAGES")) return message.reply(`You don't have permission for this command ${NaM}`);
+    if(!message.member.hasPermission("ADMINISTRATOR")) return message.reply(`You don't have permission for this command ${NaM}`);
     let role = args.join(' ');
     let roleFinder = message.guild.roles.find(r => r.name === role);
     if(roleFinder) {
