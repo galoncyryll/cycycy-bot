@@ -40,10 +40,10 @@ bot.on('message', message => {
     let cmd = messageArray[0];
     let args = messageArray.slice(1);
     //Emotes
-    const NaM = bot.emojis.find(emoji => emoji.name === "NaM").toString();
-    const PepegaPls = bot.emojis.find(emoji => emoji.name === "PepegaPls").toString();
-    const AYAYA = bot.emojis.find(emoji => emoji.name === "AYAYA").toString();
-    const OMGScoots = bot.emojis.find(emoji => emoji.name === "OMGScoots").toString();
+    const NaM = bot.emojis.find(emoji => emoji.name === "NaM");
+    const PepegaPls = bot.emojis.find(emoji => emoji.name === "PepegaPls");
+    const AYAYA = bot.emojis.find(emoji => emoji.name === "AYAYA");
+    const OMGScoots = bot.emojis.find(emoji => emoji.name === "OMGScoots");
     
     // call command handler
     let cmdFile = bot.commands.get(cmd.slice(prefix.length));
