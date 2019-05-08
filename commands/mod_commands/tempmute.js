@@ -7,7 +7,7 @@ module.exports.run = async (bot, message, args, NaM) => {
         message.reply("Usage: !=tempmute <user> <1s/m/h/d>");
         return;
     }
-    
+
     Mods.findOne({ serverID: message.guild.id }).then(res => {
         if(res) {
             let serverRole = message.guild.roles.get(res.modName)
@@ -44,8 +44,8 @@ module.exports.run = async (bot, message, args, NaM) => {
 
                 let muteTime = args[1];
                 if(!muteTime || ms(muteTime) === undefined) return message.reply("You didn't specify a time!");
-
-                (toMute.addRole(muteRole.id));
+                
+                toMute.addRole(muteRole);
                 message.reply(`<@${toMute.id}> has been muted for ${muteTime}`);
 
                 setTimeout(() => {
