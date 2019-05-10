@@ -7,7 +7,9 @@ module.exports.run = async (bot, message, args) => {
     .setColor('#00b22c')
     .setThumbnail(bot.user.displayAvatarURL)
     .addField(bot.user.username, `Just a bot ${forHEad}`)
-    .addField('Created On', bot.user.createdAt);
+    .addField('Created On', bot.user.createdAt)
+    .setFooter('Bot made by cycycy | github repo: github.com/galoncyryll/cycycy-bot')
+    .addBlankField(true);
 
     return message.channel.send(botEmbed);
 }

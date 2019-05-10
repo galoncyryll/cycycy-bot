@@ -169,7 +169,7 @@ bot.on('message', message => {
         if(!aUser) return message.channel.send(`User not found ${NaM}`);
 
         let avatarEmbed = new Discord.RichEmbed()
-            .setThumbnail(aUser.user.displayAvatarURL);
+            .setImage(aUser.user.displayAvatarURL)
         return message.channel.send(avatarEmbed);
     }
 

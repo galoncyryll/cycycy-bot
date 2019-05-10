@@ -15,13 +15,13 @@ module.exports.run = async (bot, message, args) => {
     Cmd.find({ serverID: message.guild.id }).then(res => {
         let cmdArr = [];
         res.forEach(serverCmd => cmdArr.push(serverCmd.commandName));
-
+        
         let joined = cmdArr.join(` \n`)
 
         let serverCmdEmbed = new Discord.RichEmbed()
         .setDescription("Server Commands")
         .setColor("#23ff74")
-        .addField("Server Specific Commands", `**${joined}**`);
+        .addField("Server Specific Commands", `${joined}`);
 
         return message.channel.send(serverCmdEmbed);
     }).catch(console.log);
