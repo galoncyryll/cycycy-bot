@@ -1,6 +1,7 @@
 const fs = require('fs');
 const bot = require('./bot');
 
+// READ REGULAR COMMANDS
 fs.readdir('./commands/regular_commands/', (err, files) => {
     if(err) console.log(err);
 
@@ -16,7 +17,7 @@ fs.readdir('./commands/regular_commands/', (err, files) => {
         bot.commands.set(props.help.name, props);
     });
 });
-//READ DIRECTORY COMMANDS
+//READ MOD COMMANDS
 fs.readdir('./commands/mod_commands/', (err, files) => {
     if(err) console.log(err);
 
