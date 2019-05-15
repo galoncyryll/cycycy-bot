@@ -23,7 +23,7 @@ module.exports.run = async (bot, message, args, NaM) => {
                 return message.reply(`You don't have permission for this command ${NaM}`);
             }
         } else {
-            return message.reply(`You haven't set a mod in this server ${NaM}`)
+            return message.reply(`You haven't set a mod in this server ${NaM}. To set a mod in this server do !=setmod help.`)
         }
     }).catch(console.log);  
    
