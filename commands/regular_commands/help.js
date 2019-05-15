@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const Cmd = require('../../models/customCommandsDB');
+const Mods = require('../../models/modDBtest');
 
 module.exports.run = async (bot, message, args) => {
     let hUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
@@ -26,18 +27,30 @@ module.exports.run = async (bot, message, args) => {
         return message.channel.send(serverCmdEmbed);
     }).catch(console.log);
 
-    if(message.member.hasPermission("MANAGE_MESSAGES")){
-        let modEmbed = new Discord.RichEmbed()
-        .setDescription("Mod Help Menu")
-        .setColor("#6dbefd")
-        .addField("Mod Commands", `tempmute | temporarily mutes a user \n unmute | unmute a user \n addcmd | adds a command \n editcmd | edits a custom command \n delcmd | deletes a custom command \n addbanphrase | adds a banphrase \n delbanphrase | deletes a banphrase`);
+    Mods.findOne({ serverID: message.guild.id }).then(res => {
+        if(res) {
+            let serverRole = message.guild.roles.get(res.modName)
+            if(res.modName === serverRole.id && message.member.roles.has(serverRole.id)|| message.member.hasPermission('ADMINISTRATOR')) {
+                let modEmbed = new Discord.RichEmbed()
+                    .setDescription("Mod Help Menu")
+                    .setColor("#6dbefd")
+                    .addField("Mod Commands", `tempmute | temporarily mutes a user \n unmute | unmute a user \n addcmd | adds a command \n editcmd | edits a custom command \n delcmd | deletes a custom command \n addbanphrase | adds a banphrase \n delbanphrase | deletes a banphrase`);
 
-        try {
-            await message.author.send(modEmbed);
-        } catch(e) {
-            message.reply("Your DMs are locked. I can't send mod commands")
+                    try {
+                        message.author.send(modEmbed);
+                    } catch(e) {
+                        message.reply("Your DMs are locked. I can't send mod commands")
+                    }
+            } else {
+                return;
+            }
+        } else {
+            return;
         }
-    }
+    }).catch(console.log);
+    // if(message.member.hasPermission("MANAGE_MESSAGES")){
+        
+    // }
 }
 
 module.exports.help = {

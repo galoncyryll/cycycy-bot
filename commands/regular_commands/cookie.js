@@ -16,13 +16,9 @@ module.exports.run = async (bot, message, args, NaM) => {
 
         return message.channel.send(`You can only use this command once per 24hrs (${timeRemainingHrs}hrs, ${timeRemainingMins}m and ${Math.trunc(timeRemainingSecs)}s)`);
     } else {
-
-        // the user can type the command ... your command code goes here :)
         let date = new Date()
-        // Adds the user to the set so that they can't talk for a minute
         bot.cooldown.set(message.author.id, date);
         setTimeout(() => {
-        // Removes the user from the set after a minute
         bot.cooldown.delete(message.author.id);
         }, 86400000); 
     }
@@ -31,7 +27,7 @@ module.exports.run = async (bot, message, args, NaM) => {
     .then(res => {
         let cookieEmbed = new Discord.RichEmbed()
         .setColor(3447009)
-        .addField(`${message.author.username} here is your cookie for the day`, res[0].fortune.message);
+        .addField(`🍪 ${message.author.username} here is your cookie for the day`, res[0].fortune.message);
         message.channel.send(cookieEmbed);
     })
     .catch(console.log);
