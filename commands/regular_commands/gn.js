@@ -4,7 +4,7 @@ const Afk = require('../../models/afkDB');
 module.exports.run = async (bot, message, args, NaM) => {
     let reason = args.join(' ');
     if(args[0] === "help") {
-        message.reply("Usage: !=gn <message>");
+        message.reply("```Usage: !=gn <message>```");
         return;
     }
     const afk = new Afk({
