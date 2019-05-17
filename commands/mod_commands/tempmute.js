@@ -19,7 +19,7 @@ module.exports.run = async (bot, message, args, NaM) => {
                     return message.reply(`Can't mute administrator ${NaM}`);
                 } else if(message.member.id === "487797385691398145") {
                     console.log('owner command'); //command for cycycy(owner)
-                } else if(toMute.hasPermission("MANAGE_MESSAGES")) {
+                } else if(res.modName === serverRole.id && toMute.roles.has(serverRole.id)) {
                     return message.reply(`Can't mute a mod ${NaM}`);
                 }
 
