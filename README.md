@@ -6,7 +6,7 @@ Invite link: https://discordapp.com/oauth2/authorize?client_id=53030519413145600
 # Install
 1. Clone this repo.
 2. Run ```npm install```
-2. Make a ```.env``` file with your own MongoDB database with a variable ```DB_PASS``
+2. Make a ```.env``` file with your own MongoDB database with a variable ```DB_PASS```
 3. Inside the ```.env``` file add your discord bot token with variable ```BOT_TOKEN```
 4. Run the bot! ```node bot.js```
 
