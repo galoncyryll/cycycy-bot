@@ -130,9 +130,9 @@ bot.on('message', message => {
         if(message.member.roles.find(role => role.name === 'TriHard')) return;
         res.forEach(bp => {
             if(message.content.toUpperCase().includes(bp.banphrase.toUpperCase())) {
-                const cmonBruh = bot.emojis.find(emoji => emoji.name === "cmonBruh");
+                const weirdChamp = bot.emojis.find(emoji => emoji.name === "WeirdChamp");
                 message.delete(1000);
-                message.reply(`No lacism here ${cmonBruh}`);
+                message.reply(`No lacism here ${weirdChamp}`);
             }
         })
     });
@@ -169,7 +169,7 @@ bot.on('message', message => {
         if(!aUser) return message.channel.send(`User not found ${NaM}`);
 
         let avatarEmbed = new Discord.RichEmbed()
-            .setImage(aUser.user.displayAvatarURL)
+            .setImage(aUser.user.displayAvatarURL);
         return message.channel.send(avatarEmbed);
     }
 
@@ -186,6 +186,14 @@ bot.on('message', message => {
         }).catch(console.log);
      }
 });
+
+bot.on('messageDelete', message => {
+    const channelName = message.channel.name;
+    console.log(message.content);
+    console.log(message.author.id)
+    console.log(message.id)
+    return message.channel.send(`Message sent by <@${message.author.id}> was deleted in <#${message.channel.id}> : ${message.content}`);
+})
 
 
 bot.login(process.env.BOT_TOKEN);
