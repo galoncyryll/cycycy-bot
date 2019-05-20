@@ -3,15 +3,15 @@ const botconfig = require('./botconfig.json');
 const bot = new Discord.Client();
 require('dotenv').config();
 
+//Read commands directory
+module.exports = bot;
+require('./fsCommandReader');
+
 //bot commands collection
 bot.commands = new Discord.Collection();
 
 //cookie command cooldown
 bot.cooldown = new Map();
-
-//Read commands directory
-module.exports = bot;
-require('./fsCommandReader');
 
 //Database
 const mongoose = require('mongoose');
@@ -188,11 +188,14 @@ bot.on('message', message => {
 });
 
 bot.on('messageDelete', message => {
-    const channelName = message.channel.name;
-    console.log(message.content);
-    console.log(message.author.id)
-    console.log(message.id)
-    return message.channel.send(`Message sent by <@${message.author.id}> was deleted in <#${message.channel.id}> : ${message.content}`);
+    console.log(message);
+    let logEmbed = new Discord.RichEmbed()
+        .setColor('#ff0000')
+        .setAuthor(`**[DELETE]** | ${message.author.tag}`,message.author.avatarURL)
+        .addField('User', `<@${message.author.id}>`, true)
+        // .addField('Moderator', `<@${}>`, true)
+    // return message.channel.send(`Message sent by <@${message.author.id}> was deleted in <#${message.channel.id}> : ${message.content}`);
+    message.channel.send(logEmbed);
 })
 
 
