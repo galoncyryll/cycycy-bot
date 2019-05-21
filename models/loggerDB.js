@@ -8,4 +8,4 @@ const loggerSchema = mongoose.Schema({
 });
 
 
-module.exports = mongoose.model("Afk", afkSchema)
+module.exports = mongoose.model("Logger", loggerSchema);

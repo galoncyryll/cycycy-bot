@@ -4,8 +4,7 @@ const Mod = require('../../models/modDBtest');
 module.exports.run = async (bot, message, args, NaM) => {
     if(!message.member.hasPermission("ADMINISTRATOR")) return message.reply(`Only administrator have permission for this command ${NaM}`);
     if(args[0] === "help") {
-        message.reply("```Usage: !=setmod <mod_role_name>```");
-        return;
+        return message.reply("```Usage: !=setmod <mod_role_name>```");
     }
     let role = args.join(' ');
     let roleFinder = message.guild.roles.find(r => r.name === role);

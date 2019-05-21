@@ -14,14 +14,10 @@ bot.commands = new Discord.Collection();
 bot.cooldown = new Map();
 
 //Database
-const mongoose = require('mongoose');
-const Notify = require('./models/notifyDB');
-const Afk = require('./models/afkDB');
-const Cmd = require('./models/customCommandsDB');
-const BanPhrase = require('./models/banPhraseDB');
+const db = require('./databaseImport');
 
 //connect to MongoDB Atlas
-mongoose.connect(process.env.DB_PASS, { useNewUrlParser: true });
+db.mongoose.connect(process.env.DB_PASS, { useNewUrlParser: true });
 
 bot.on('ready', async () => {
     console.log(`${bot.user.username} is online! on ${bot.guilds.size} servers!`);
@@ -50,7 +46,7 @@ bot.on('message', message => {
     if (cmdFile && cmd.startsWith(prefix)) cmdFile.run(bot,message,args,NaM);
 
     //AFK checker
-    Afk.findOne({ userID: message.author.id }).then(result => {
+    db.Afk.findOne({ userID: message.author.id }).then(result => {
          if(result) {
             let newTime = new Date();
             let ms = newTime - result.date;
@@ -76,12 +72,12 @@ bot.on('message', message => {
                 .addField(`${message.author.username} you have slept for less than 6hrs`, `"People who sleep less than 6 hours a night may be at increased risk of cardiovascular disease compared with those who sleep between 7 and 8 hours, suggests a new study published in the Journal of the American College of Cardiology. Poor quality sleep increases the risk of atherosclerosis—plaque buildup in the arteries throughout the body—according to the study." ${OMGScoots}`)
                 message.channel.send(afkEmbed)
             }
-            Afk.deleteOne({ userID: result.userID }).then(console.log).catch(console.log);
+            db.Afk.deleteOne({ userID: result.userID }).then(console.log).catch(console.log);
         }
     });
 
     //AFK Tagged checker
-    Afk.find({}).then(result => {
+    db.Afk.find({}).then(result => {
         result.forEach(res => {
             if(message.isMentioned(res.userID)){
                 if (cmd === '!=tuck') return;
@@ -96,7 +92,7 @@ bot.on('message', message => {
                     notifyMsg: message.content
                 });
             
-                Notify.find({ userID: res.userID }).then(results => {
+                db.Notify.find({ userID: res.userID }).then(results => {
                     if( results.length >= 5 ) { //message limiter
                         return message.reply(`${notifyUser} has already reached the limit of recieving messages ${NaM}`);
                     } else {
@@ -108,7 +104,7 @@ bot.on('message', message => {
     }).catch(err => console.log(err));
     
     //Notify checker
-    Notify.find({ userID: message.author.id }).then(result => {
+    db.Notify.find({ userID: message.author.id }).then(result => {
         if(result.length >= 1) {
             result.forEach(resData => {
             let notifyEmbed = new Discord.RichEmbed()
@@ -126,20 +122,24 @@ bot.on('message', message => {
     });
 
     //Ban Phrase checker
-    BanPhrase.find({ serverID: message.guild.id }).then(res => {
+    db.BanPhrase.find({ serverID: message.guild.id }).then(res => {
         if(message.member.roles.find(role => role.name === 'TriHard')) return;
         res.forEach(bp => {
             if(message.content.toUpperCase().includes(bp.banphrase.toUpperCase())) {
                 const weirdChamp = bot.emojis.find(emoji => emoji.name === "WeirdChamp");
                 message.delete(1000).then(res => {
-                    let logEmbed = new Discord.RichEmbed()
-                        .setColor('#ff0000')
-                        .setAuthor(`[DELETE] | ${res.author.tag}`, res.author.avatarURL)
-                        .addField('User', `<@${res.author.id}>`, true)
-                        .addField('Reason', 'Matched Ban Phrase', true)
-                        .setFooter(`ID: ${res.id}`)
-                        .setTimestamp();
+                    db.Logger.findOne({ serverID: message.guild.id }).then(server => {
+                        
+                        let logEmbed = new Discord.RichEmbed()
+                            .setColor('#ff0000')
+                            .setAuthor(`[DELETE] | ${res.author.tag}`, res.author.avatarURL)
+                            .addField('User', `<@${res.author.id}>`, true)
+                            .addField('Reason', 'Matched Ban Phrase', true)
+                            .setFooter(`ID: ${res.id}`)
+                            .setTimestamp();
+
                         return message.channel.send(logEmbed);
+                    });
                 })
                 message.reply(`No lacism here ${weirdChamp}`);
             }
@@ -149,7 +149,7 @@ bot.on('message', message => {
     //Custom command checker
     if(cmd.startsWith(prefix)){
         let cmdChk = cmd.slice(2);
-        Cmd.findOne({ serverID: message.guild.id, commandName: cmdChk }).then(res => {
+        db.Cmd.findOne({ serverID: message.guild.id, commandName: cmdChk }).then(res => {
             if (res) {
                 return message.channel.send(res.commandRes);
             }
