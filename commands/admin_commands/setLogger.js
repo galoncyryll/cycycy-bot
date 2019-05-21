@@ -21,13 +21,18 @@ module.exports.run = async (bot, message, args, NaM ) => {
         
         Logger.findOne({ serverID: message.guild.id }).then(res => {
             if(res) {
-                Logger.updateOne({ serverID: message.guild.id }, 
-                    { isEnabled: isEnabled }).then(console.log('updated'))
+                return Logger.updateOne({ serverID: message.guild.id }, 
+                    { isEnabled: isEnabled, logChannelID: channelFinder.id }).then(message.channel.send(`Logger channel added successfully!`)).catch(console.log);
             } else {
                 return logger.save().then(message.channel.send(`Logger channel added successfully!`)).catch(console.log);
             }
         });
-    } 
+    } else if (isEnabled === 'disable') {
+        return Logger.updateOne({ serverID: message.guild.id },
+            { isEnabled: isEnabled, logChannelID: ''}).then(message.channel.send(`Logger disabled successfully!`)).catch(console.log);
+    } else {
+        return message.channel.send('An error has occured. Use `!=setlogger help` for setting the logger channel.')
+    }
     
 }
 
