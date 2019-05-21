@@ -83,7 +83,7 @@ bot.on('message', message => {
                 if (cmd === '!=tuck') return;
                 const notifyUser =  message.guild.member(message.mentions.users.first());
 
-                const notify = new Notify({
+                const notify = new db.Notify({
                     _id: mongoose.Types.ObjectId(),
                     username: notifyUser.user.username,
                     userID: res.userID,
@@ -112,7 +112,7 @@ bot.on('message', message => {
                 .addField(`**${resData.senderName}** sent you a message from **${resData.serverName}** server:`,  resData.notifyMsg);
             message.reply(notifyEmbed)
             .then(() => {
-                Notify.deleteOne({ userID: resData.userID })
+                db.Notify.deleteOne({ userID: resData.userID })
                 .then(console.log)
                 .catch(err => console.log(err));
             })

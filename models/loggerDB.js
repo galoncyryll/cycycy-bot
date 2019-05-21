@@ -4,7 +4,7 @@ const loggerSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     serverID: String,
     logChannelID: String,
-    isEnabled: Boolean
+    isEnabled: String
 });
 
 
