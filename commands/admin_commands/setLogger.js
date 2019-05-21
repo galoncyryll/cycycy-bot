@@ -22,7 +22,7 @@ module.exports.run = async (bot, message, args, NaM ) => {
         Logger.findOne({ serverID: message.guild.id }).then(res => {
             if(res) {
                 return Logger.updateOne({ serverID: message.guild.id }, 
-                    { isEnabled: isEnabled, logChannelID: channelFinder.id }).then(message.channel.send(`Logger channel added successfully!`)).catch(console.log);
+                    { isEnabled: isEnabled, logChannelID: channelFinder.id }).then(message.channel.send(`Logger channel has been set to ${channelFinder}`)).catch(console.log);
             } else {
                 return logger.save().then(message.channel.send(`Logger channel added successfully!`)).catch(console.log);
             }

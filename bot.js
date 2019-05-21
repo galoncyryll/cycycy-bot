@@ -127,18 +127,20 @@ bot.on('message', message => {
         res.forEach(bp => {
             if(message.content.toUpperCase().includes(bp.banphrase.toUpperCase())) {
                 const weirdChamp = bot.emojis.find(emoji => emoji.name === "WeirdChamp");
-                message.delete(1000).then(res => {
-                    db.Logger.findOne({ serverID: message.guild.id }).then(server => {
-                        
-                        let logEmbed = new Discord.RichEmbed()
-                            .setColor('#ff0000')
-                            .setAuthor(`[DELETE] | ${res.author.tag}`, res.author.avatarURL)
-                            .addField('User', `<@${res.author.id}>`, true)
-                            .addField('Reason', 'Matched Ban Phrase', true)
-                            .setFooter(`ID: ${res.id}`)
-                            .setTimestamp();
+                message.delete().then(deletedMessage => {
+                    db.Logger.findOne({ serverID: message.guild.id }).then(logRes => {
+                        if(logRes.isEnabled === 'enable') {
+                            let logEmbed = new Discord.RichEmbed()
+                                .setColor('#ff0000')
+                                .setAuthor(`[DELETE] | ${deletedMessage.author.tag}`, deletedMessage.author.avatarURL)
+                                .addField('User', `<@${deletedMessage.author.id}>`, true)
+                                .addField('Reason', 'Matched Ban Phrase', true)
+                                .setFooter(`ID: ${deletedMessage.id}`)
+                                .setTimestamp();
 
-                        return message.channel.send(logEmbed);
+                            return bot.channels.get(logRes.logChannelID).send(logEmbed);
+                        }  
+                     
                     });
                 })
                 message.reply(`No lacism here ${weirdChamp}`);
