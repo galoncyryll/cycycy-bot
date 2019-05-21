@@ -135,12 +135,12 @@ bot.on('message', message => {
                                 .setAuthor(`[DELETE] | ${deletedMessage.author.tag}`, deletedMessage.author.avatarURL)
                                 .addField('User', `<@${deletedMessage.author.id}>`, true)
                                 .addField('Reason', 'Matched Ban Phrase', true)
+                                .addField('Message', deletedMessage.content)
                                 .setFooter(`ID: ${deletedMessage.id}`)
                                 .setTimestamp();
 
                             return bot.channels.get(logRes.logChannelID).send(logEmbed);
-                        }  
-                     
+                        }
                     });
                 })
                 message.reply(`No lacism here ${weirdChamp}`);
