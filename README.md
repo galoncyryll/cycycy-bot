@@ -3,11 +3,11 @@ A simple bot for a simple discord server
 
 Invite link: https://discordapp.com/oauth2/authorize?client_id=530305194131456000&scope=bot&permissions=8
 
-# Install
+# Install and run locally
 1. Clone this repo.
 2. Run ```npm install```
 2. Make a ```.env``` file with your own MongoDB database with a variable ```DB_PASS```
-3. Inside the ```.env``` file add your discord bot token with variable ```BOT_TOKEN```
+3. Inside the ```.env``` file add your discord bot token with a variable ```BOT_TOKEN```
 4. Run the bot! ```node bot.js```
 
 # Functions(for now)
