@@ -131,7 +131,16 @@ bot.on('message', message => {
         res.forEach(bp => {
             if(message.content.toUpperCase().includes(bp.banphrase.toUpperCase())) {
                 const weirdChamp = bot.emojis.find(emoji => emoji.name === "WeirdChamp");
-                message.delete(1000);
+                message.delete(1000).then(res => {
+                    let logEmbed = new Discord.RichEmbed()
+                        .setColor('#ff0000')
+                        .setAuthor(`[DELETE] | ${res.author.tag}`, res.author.avatarURL)
+                        .addField('User', `<@${res.author.id}>`, true)
+                        .addField('Reason', 'Matched Ban Phrase', true)
+                        .setFooter(`ID: ${res.id}`)
+                        .setTimestamp();
+                        return message.channel.send(logEmbed);
+                })
                 message.reply(`No lacism here ${weirdChamp}`);
             }
         })
@@ -186,17 +195,5 @@ bot.on('message', message => {
         }).catch(console.log);
      }
 });
-
-bot.on('messageDelete', message => {
-    console.log(message);
-    let logEmbed = new Discord.RichEmbed()
-        .setColor('#ff0000')
-        .setAuthor(`**[DELETE]** | ${message.author.tag}`,message.author.avatarURL)
-        .addField('User', `<@${message.author.id}>`, true)
-        // .addField('Moderator', `<@${}>`, true)
-    // return message.channel.send(`Message sent by <@${message.author.id}> was deleted in <#${message.channel.id}> : ${message.content}`);
-    message.channel.send(logEmbed);
-})
-
 
 bot.login(process.env.BOT_TOKEN);
