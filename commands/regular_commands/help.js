@@ -48,9 +48,6 @@ module.exports.run = async (bot, message, args) => {
             return;
         }
     }).catch(console.log);
-    // if(message.member.hasPermission("MANAGE_MESSAGES")){
-        
-    // }
 }
 
 module.exports.help = {

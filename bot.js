@@ -58,7 +58,7 @@ bot.on('message', message => {
 
             message.channel.send(`<@${message.author.id}> is back: ${result.reason} (${hours}h, ${minutes}m and ${Math.trunc(seconds)}s ago)`);
             //Checks if AFK type is gn or afk;
-            if( result.afkType == 'afk') return db.Afk.deleteOne({ userID: result.userID }).then(console.log).catch(console.log); 
+            if( result.afkType == 'afk') return db.Afk.deleteOne({ userID: result.userID }).then(console.log('Message Deleted')).catch(console.log); 
 
             //Proceeds if AFK type is gn
             if(hours >= 9) {
@@ -72,7 +72,7 @@ bot.on('message', message => {
                 .addField(`${message.author.username} you have slept for less than 6hrs`, `"People who sleep less than 6 hours a night may be at increased risk of cardiovascular disease compared with those who sleep between 7 and 8 hours, suggests a new study published in the Journal of the American College of Cardiology. Poor quality sleep increases the risk of atherosclerosis—plaque buildup in the arteries throughout the body—according to the study." ${OMGScoots}`)
                 message.channel.send(afkEmbed)
             }
-            db.Afk.deleteOne({ userID: result.userID }).then(console.log).catch(console.log);
+            db.Afk.deleteOne({ userID: result.userID }).then(console.log('Message Deleted')).catch(console.log);
         }
     });
 
@@ -96,7 +96,7 @@ bot.on('message', message => {
                     if( notifyRes.length >= 5 ) { //message limiter
                         return message.reply(`${notifyUser} has already reached the limit of recieving messages ${NaM}`);
                     } else {
-                        return notify.save().then(() => message.reply(`<@${res.userID}> is afk but i will send him that message when he types in this server ${OMGScoots} 👍`)).catch(err => console.log(err));
+                        return notify.save().then(() => message.reply(`<@${res.userID}> is afk but i will send him that message when he types in this server ${OMGScoots} 👍`)).catch(console.log);
                     }
                 });
             }
@@ -112,7 +112,7 @@ bot.on('message', message => {
                 .addField(`**${resData.senderName}** sent you a message from **${resData.serverName}** server:`,  resData.notifyMsg);
             message.reply(notifyEmbed)
             .then(() => {
-                db.Notify.deleteOne({ userID: resData.userID });
+                db.Notify.deleteOne({ userID: resData.userID }).then(console.log('Message Deleted')).catch(console.log);
             })
             .catch(console.log);
             });
@@ -122,6 +122,7 @@ bot.on('message', message => {
     //Ban Phrase checker
     db.BanPhrase.find({ serverID: message.guild.id }).then(res => {
         if(message.member.roles.find(role => role.name === 'TriHard')) return;
+        if(cmd.startsWith(prefix)) return;
         res.forEach(bp => {
             if(message.content.toUpperCase().includes(bp.banphrase.toUpperCase())) {
                 const weirdChamp = bot.emojis.find(emoji => emoji.name === "WeirdChamp");
