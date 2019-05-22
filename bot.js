@@ -58,7 +58,7 @@ bot.on('message', message => {
 
             message.channel.send(`<@${message.author.id}> is back: ${result.reason} (${hours}h, ${minutes}m and ${Math.trunc(seconds)}s ago)`);
             //Checks if AFK type is gn or afk;
-            if( result.afkType == 'afk') return Afk.deleteOne({ userID: result.userID }).then(console.log).catch(console.log); 
+            if( result.afkType == 'afk') return db.Afk.deleteOne({ userID: result.userID }).then(console.log).catch(console.log); 
 
             //Proceeds if AFK type is gn
             if(hours >= 9) {
@@ -84,7 +84,7 @@ bot.on('message', message => {
                 const notifyUser =  message.guild.member(message.mentions.users.first());
 
                 const notify = new db.Notify({
-                    _id: mongoose.Types.ObjectId(),
+                    _id: db.mongoose.Types.ObjectId(),
                     username: notifyUser.user.username,
                     userID: res.userID,
                     senderName: message.author.username,
@@ -129,7 +129,8 @@ bot.on('message', message => {
                 const weirdChamp = bot.emojis.find(emoji => emoji.name === "WeirdChamp");
                 message.delete().then(deletedMessage => {
                     db.Logger.findOne({ serverID: message.guild.id }).then(logRes => {
-                        if(logRes.isEnabled === 'enable') {
+                        console.log(logRes);
+                        if(logRes.isEnabled && logRes.isEnabled === 'enable') {
                             let logEmbed = new Discord.RichEmbed()
                                 .setColor('#ff0000')
                                 .setAuthor(`[DELETE] | ${deletedMessage.author.tag}`, deletedMessage.author.avatarURL)
@@ -141,8 +142,8 @@ bot.on('message', message => {
 
                             return bot.channels.get(logRes.logChannelID).send(logEmbed);
                         }
-                    });
-                })
+                    }).catch(console.log);
+                }).catch(console.log);
                 message.reply(`No lacism here ${weirdChamp}`);
             }
         })
