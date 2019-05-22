@@ -77,8 +77,8 @@ bot.on('message', message => {
     });
 
     //AFK Tagged checker
-    db.Afk.find({}).then(result => {
-        result.forEach(res => {
+    db.Afk.find({}).then(afkRes => {
+        afkRes.forEach(res => {
             if(message.isMentioned(res.userID)){
                 if (cmd === '!=tuck') return;
                 const notifyUser =  message.guild.member(message.mentions.users.first());
@@ -92,16 +92,16 @@ bot.on('message', message => {
                     notifyMsg: message.content
                 });
             
-                db.Notify.find({ userID: res.userID }).then(results => {
-                    if( results.length >= 5 ) { //message limiter
+                db.Notify.find({ userID: res.userID }).then(notifyRes => {
+                    if( notifyRes.length >= 5 ) { //message limiter
                         return message.reply(`${notifyUser} has already reached the limit of recieving messages ${NaM}`);
                     } else {
-                        notify.save().then(result => message.reply(`<@${res.userID}> is afk but i will send him that message when he types in this server ${OMGScoots} 👍`)).catch(err => console.log(err));
+                        return notify.save().then(() => message.reply(`<@${res.userID}> is afk but i will send him that message when he types in this server ${OMGScoots} 👍`)).catch(err => console.log(err));
                     }
                 });
             }
         });
-    }).catch(err => console.log(err));
+    }).catch(console.log);
     
     //Notify checker
     db.Notify.find({ userID: message.author.id }).then(result => {
@@ -112,11 +112,9 @@ bot.on('message', message => {
                 .addField(`**${resData.senderName}** sent you a message from **${resData.serverName}** server:`,  resData.notifyMsg);
             message.reply(notifyEmbed)
             .then(() => {
-                db.Notify.deleteOne({ userID: resData.userID })
-                .then(console.log)
-                .catch(err => console.log(err));
+                db.Notify.deleteOne({ userID: resData.userID });
             })
-            .catch(err => console.log(err));
+            .catch(console.log);
             });
         }
     });
@@ -129,7 +127,6 @@ bot.on('message', message => {
                 const weirdChamp = bot.emojis.find(emoji => emoji.name === "WeirdChamp");
                 message.delete().then(deletedMessage => {
                     db.Logger.findOne({ serverID: message.guild.id }).then(logRes => {
-                        console.log(logRes);
                         if(logRes.isEnabled && logRes.isEnabled === 'enable') {
                             let logEmbed = new Discord.RichEmbed()
                                 .setColor('#ff0000')
