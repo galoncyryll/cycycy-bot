@@ -13,12 +13,12 @@ Invite link: https://discordapp.com/oauth2/authorize?client_id=53030519413145600
 
 # Functions(for now)
 ## ADMIN COMMANDS
-  #### ROLE COUNTER
+  ### ROLE COUNTER
   **Returns how many members the given role have**
   
   Usage: !=rc <role_name>
   
-  #### SET LOGGER CHANNEL
+  ### SET LOGGER CHANNEL
 ### Translate
 Translates message from any language to english
 
