@@ -47,8 +47,8 @@ Invite link: https://discordapp.com/oauth2/authorize?client_id=53030519413145600
   
   ### Temporary mute/ Unmute
   **Temporarily mutes a user/Unmute a user**
-  * Usage: !=tempmute <user> <1s/1m/1h/1d>
-  * Usage: !=unmute <user>
+  * Usage: !=tempmute <tag_user> <1s/1m/1h/1d>
+  * Usage: !=unmute <tag_user>
   
 ## --- Regular Commands ---
   ### Help
@@ -57,15 +57,15 @@ Invite link: https://discordapp.com/oauth2/authorize?client_id=53030519413145600
   
   ### Translate
   **Translates message from any language to english**
-  * Usage: !=translate <message>
+  * Usage: !=translate <your_message>
 
   ### Wiki search
   **Returns a summary of the user's input from wikipedia**
-  * Usage: !=wiki <word> (word you want to search from wikipedia)
+  * Usage: !=wiki <search_word> (word you want to search from wikipedia)
 
   ### Get User Info
   **Shows the user's information in the server**
-  * Usage: !=userinfo <user> (optional)
+  * Usage: !=userinfo <tag_user> (optional)
   
   ### Get Server Info
   **Shows the server's information**
@@ -78,12 +78,12 @@ Invite link: https://discordapp.com/oauth2/authorize?client_id=53030519413145600
 
   ### AFK/GN
   **GN sets your status to sleeping/AFK sets your status to AFK**
-  * Usage: !=afk <message> (optional)
-  * Usage: !=gn <message> (optional)
+  * Usage: !=afk <your_message> (optional)
+  * Usage: !=gn <your_message> (optional)
   
   ### Tuck
   **Tucks the Sleeping User 4HEad**
-  * Usage: !=tuck <user>
+  * Usage: !=tuck <tag_user>
   
   ### Cat facts HYPERS!!
   **Gives you a fact about cats OMGSCoots**
