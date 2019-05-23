@@ -13,7 +13,7 @@ Invite link: https://discordapp.com/oauth2/authorize?client_id=53030519413145600
 
 # Functions(for now)
 ## ADMIN COMMANDS
-  ##### ROLE COUNTER
+  #### ROLE COUNTER
   **Returns how many members the given role have**
   
   Usage: !=rc <role_name>
