@@ -15,27 +15,27 @@ Invite link: https://discordapp.com/oauth2/authorize?client_id=53030519413145600
 ## Admin Commands
   ### Role Counter
   **Returns how many members the given role have**
-  *Usage: !=rc <role_name>
+  * Usage: !=rc <role_name>
   
   ### Set logger channel
   **Enable/Disable the event logger (message deleted, member left, member kicked, etc.)**
-  *Usage: !=setlogger <enable/disable> <channel_name>(channel name is optional only if you set it to disabled)
+  * Usage: !=setlogger <enable/disable> <channel_name>(channel name is optional only if you set it to disabled)
   
    ### Set Mod Role (IMPORTANT TO SETUP)
   **Sets the mod role of the server to be able to use mod commands**
-  *Usage: !=setmod <mod_name>
+  * Usage: !=setmod <mod_name>
   
 ## Mod Commands
   ### Adding/Deleting Ban Phrase
   **Adds/Deletes a ban phrase/word to the server**
-  *Usage: !=addbanphrase <phrase/word>
-  *Usage: !=delbanphrase <phrase/word>
+  * Usage: !=addbanphrase <phrase/word>
+  * Usage: !=delbanphrase <phrase/word>
   
    ### Adding/Deleting/Editing custom command
   **Adds/Deletes/Edits a custom command to the server**
-  *Usage: !=addcmd <command_name> <command_response>
-  *Usage: !=delcmd <command_name>
-  *Usage: !=editcmd <command_name> <command_response>
+  * Usage: !=addcmd <command_name> <command_response>
+  * Usage: !=delcmd <command_name>
+  * Usage: !=editcmd <command_name> <command_response>
 ### Translate
 Translates message from any language to english
 
