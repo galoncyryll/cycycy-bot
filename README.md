@@ -12,64 +12,82 @@ Invite link: https://discordapp.com/oauth2/authorize?client_id=53030519413145600
 4. Run the bot! ```node bot.js```
 
 # Functions(for now)
-## Admin Commands
+## --- Admin Commands ---
+  ### Test
+  **Tests if the bot is running**
+  * Usage: !=test
+  
   ### Role Counter
   **Returns how many members the given role have**
   * Usage: !=rc <role_name>
   
   ### Set logger channel
   **Enable/Disable the event logger (message deleted, member left, member kicked, etc.)**
-  * Usage: !=setlogger <enable/disable> <channel_name>(channel name is optional only if you set it to disabled)
+  * Usage: !=setlogger <enable/disable> <channel_name> (channel name is optional only if you set it to disabled)
   
    ### Set Mod Role (IMPORTANT TO SETUP)
   **Sets the mod role of the server to be able to use mod commands**
   * Usage: !=setmod <mod_name>
   
-## Mod Commands
+## --- Mod Commands ---
   ### Adding/Deleting Ban Phrase
   **Adds/Deletes a ban phrase/word to the server**
   * Usage: !=addbanphrase <phrase/word>
   * Usage: !=delbanphrase <phrase/word>
   
-   ### Adding/Deleting/Editing custom command
+  ### Adding/Deleting/Editing custom command
   **Adds/Deletes/Edits a custom command to the server**
   * Usage: !=addcmd <command_name> <command_response>
   * Usage: !=delcmd <command_name>
   * Usage: !=editcmd <command_name> <command_response>
-### Translate
-Translates message from any language to english
-
-Command: !=translate (message)
-
-### Wiki search
-Returns a summary of the user's input from wikipedia
-
-Command: !=wiki (message)
-
-### Get User Info
-Shows the user's information in the server
-
-Command: !=userinfo <optional arg>( tag a user )
   
-### Get Server Info
-Shows the current server's information
+  ### Adding/Deleting Ban Phrase
+  **Adds/Deletes a ban phrase/word to the server**
+  * Usage: !=addbanphrase <phrase/word>
+  
+  ### Temporary mute/ Unmute
+  **Temporarily mutes a user/Unmute a user**
+  * Usage: !=tempmute <user> <1s/1m/1h/1d>
+  * Usage: !=unmute <user>
+  
+## --- Regular Commands ---
+  ### Help
+  **Shows the command and custom commands in the server**
+  * Usage: !=help
+  
+  ### Translate
+  **Translates message from any language to english**
+  * Usage: !=translate <message>
 
-Command: !=serverinfo
+  ### Wiki search
+  **Returns a summary of the user's input from wikipedia**
+  * Usage: !=wiki <word> (word you want to search from wikipedia)
 
-### Temporary Mute
-Temporarily mutes the tagged user.
+  ### Get User Info
+  **Shows the user's information in the server**
+  * Usage: !=userinfo <user> (optional)
+  
+  ### Get Server Info
+  **Shows the server's information**
+  * Usage: !=serverinfo
+  
+  ### Get life advice from bot
+  **Gives you advice**
+  * Usage: !=advice
+  * Usage: !=cookie (24hr cooldown)
 
-Command: !=tempmute (user) (time e.g.: 1s, 1m, 1w)
-### Unmute
-Unmutes a muted user
-
-Command: !=unmute (user)
-
-### Warn a user
-Warn a user and time them out based on the number of warns.
-
-Command: !=warn (user) (reason)
-
+  ### AFK/GN
+  **GN sets your status to sleeping/AFK sets your status to AFK**
+  * Usage: !=afk <message> (optional)
+  * Usage: !=gn <message> (optional)
+  
+  ### Tuck
+  **Tucks the Sleeping User 4HEad**
+  * Usage: !=tuck <user>
+  
+  ### Cat facts HYPERS!!
+  **Gives you a fact about cats OMGSCoots**
+  * Usage: !=catfact
 
 
 # Upcoming features
