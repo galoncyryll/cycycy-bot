@@ -80,7 +80,7 @@ bot.on('message', message => {
     db.Afk.find({}).then(afkRes => {
         afkRes.forEach(res => {
             if(message.isMentioned(res.userID)){
-                if (cmd === '!=tuck') return;
+                if (cmd === '!=tuck' || cmd === '!=notify') return;
                 const notifyUser =  message.guild.member(message.mentions.users.first());
 
                 const notify = new db.Notify({
@@ -196,5 +196,21 @@ bot.on('message', message => {
         }).catch(console.log);
      }
 });
+
+bot.on('guildMemberRemove', member => {
+    db.Logger.findOne({ serverID: member.guild.id }).then(logRes => {
+        if(logRes.isEnabled && logRes.isEnabled === 'enable') {
+            let logEmbed = new Discord.RichEmbed()
+                .setColor('#ff0000')
+                .setAuthor(`[LEFT] | ${member.user.tag}`, member.user.avatarURL)
+                .addField('User', `<@${member.id}>`, true)
+                .addField('Reason', 'Left the server.', true)
+                .setFooter(`ID: ${member.id}`)
+                .setTimestamp();
+
+            return bot.channels.get(logRes.logChannelID).send(logEmbed);
+        }
+    }).catch(console.log);
+})
 
 bot.login(process.env.BOT_TOKEN);
