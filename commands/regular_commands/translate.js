@@ -15,9 +15,7 @@ module.exports.run = async (bot, message, args) => {
         .addField('Translated from:', res.from.language.iso);
 
         message.channel.send(langEmbed);
-    }).catch(err => {
-        console.error(err);
-    });
+    }).catch(err => message.reply(`Error ${err}`));
 }
 
 module.exports.help = {

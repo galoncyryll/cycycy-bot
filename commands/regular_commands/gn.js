@@ -19,7 +19,7 @@ module.exports.run = async (bot, message, args, NaM) => {
         if(res.length >= 1) { //afk limiter
             return message.reply(`You are already AFK ${NaM}`);
         } else {
-            afk.save().then(message.reply(`is now sleeping: ${reason}`)).then(message.channel.send(`Somebody tuck him ${NaM}`)).catch(err => console.log(err));
+            afk.save().then(message.reply(`is now sleeping: ${reason}`)).then(message.channel.send(`Somebody tuck him ${NaM}`)).catch(err => message.reply(`Error ${err}`));
         }
     });
 }

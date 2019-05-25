@@ -22,16 +22,16 @@ module.exports.run = async (bot, message, args, NaM ) => {
         Logger.findOne({ serverID: message.guild.id }).then(res => {
             if(res) {
                 return Logger.updateOne({ serverID: message.guild.id }, 
-                    { isEnabled: isEnabled, logChannelID: channelFinder.id }).then(message.channel.send(`Logger channel has been set to ${channelFinder}`)).catch(console.log);
+                    { isEnabled: isEnabled, logChannelID: channelFinder.id }).then(message.channel.send(`Logger channel has been set to ${channelFinder}`)).catch(err => message.reply(`Error ${err}`));
             } else {
-                return logger.save().then(message.channel.send(`Logger channel added successfully!`)).catch(console.log);
+                return logger.save().then(message.channel.send(`Logger channel added successfully!`)).catch(err => message.reply(`Error ${err}`));
             }
         });
     } else if (isEnabled === 'disable') {
         Logger.findOne({ serverID: message.guild.id }).then(res => {
             if(res){
                 return Logger.updateOne({ serverID: message.guild.id },
-                    { isEnabled: isEnabled, logChannelID: ''}).then(message.channel.send(`Logger disabled successfully!`)).catch(console.log);
+                    { isEnabled: isEnabled, logChannelID: ''}).then(message.channel.send(`Logger disabled successfully!`)).catch(err => message.reply(`Error ${err}`));
             } else {
                 return message.channel.send('Logger has not been setup in this server yet'+ NaM + 'Please use `!=setlogger help` for more info,');
             }

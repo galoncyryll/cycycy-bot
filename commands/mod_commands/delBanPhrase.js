@@ -28,7 +28,7 @@ module.exports.run = async (bot, message, args, NaM) => {
         } else {
             return message.reply(`You haven't set a mod in this server ${NaM}. To set a mod in this server do !=setmod help.`)
         }
-    }).catch(console.log);
+    }).catch(err => message.reply(`Error ${err}`));
 }
 
 module.exports.help = {

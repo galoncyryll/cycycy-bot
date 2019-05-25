@@ -20,10 +20,10 @@ module.exports.run = async (bot, message, args) => {
                     resultsEmbed.setColor('#db6c42')
                     resultsEmbed.setDescription(toSend)
                     message.channel.send(resultsEmbed);
-                }).catch(err => message.channel.send('No Results Found!'));
-            }).catch(err => message.channel.send('No Results Found!'));
+                }).catch(err => message.reply(`Error ${err}`));
+            }).catch(err => message.reply(`Error ${err}`));
         })
-        .catch(err => message.channel.send('No Results Found!'));
+        .catch(err => message.reply(`Error ${err}`));
 }
 
 module.exports.help = {

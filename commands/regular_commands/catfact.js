@@ -14,7 +14,7 @@ module.exports.run = async (bot, message, args) => {
 
         return message.channel.send(factEmbed);
     })
-    .catch(console.log)
+    .catch(err => message.reply(`Error ${err}`));
 }
 
 module.exports.help = {

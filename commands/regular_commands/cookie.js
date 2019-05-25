@@ -30,7 +30,7 @@ module.exports.run = async (bot, message, args, NaM) => {
         .addField(`🍪 ${message.author.username} here is your cookie for the day`, res[0].fortune.message);
         message.channel.send(cookieEmbed);
     })
-    .catch(console.log);
+    .catch(err => message.reply(`Error ${err}`));
 }
 
 module.exports.help = {

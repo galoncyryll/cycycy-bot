@@ -18,14 +18,14 @@ module.exports.run = async (bot, message, args, NaM) => {
                 
                 Cmd.updateOne({ serverID: message.guild.id, commandName: args[0] },
                     { commandRes: cmdRes.join(' ') }
-                ).then(message.channel.send(`Command was changed ${NaM}`)).catch(console.log)
+                ).then(message.channel.send(`Command was changed ${NaM}`)).catch(err => message.reply(`Error ${err}`));
             } else {
                 return message.reply(`You don't have permission for this command ${NaM}`);
             }
         } else {
             return message.reply(`You haven't set a mod in this server ${NaM}. To set a mod in this server do !=setmod help.`)
         }
-    }).catch(console.log);  
+    }).catch(err => message.reply(`Error ${err}`));  
    
 }
 

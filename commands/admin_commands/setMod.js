@@ -21,7 +21,7 @@ module.exports.run = async (bot, message, args, NaM) => {
         if(res.length>=1) {
             return message.reply(`Mod already exist in this server ${NaM}. You can edit mod name in this server by doing !=editmod ${NaM}.`);
         } else {
-            return mod.save().then(message.channel.send(`Mod role added ${NaM}`)).catch(console.log);
+            return mod.save().then(message.channel.send(`Mod role added ${NaM}`)).catch(err => message.reply(`Error ${err}`));
         }
     })
     

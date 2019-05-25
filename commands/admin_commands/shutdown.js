@@ -6,7 +6,7 @@ module.exports.run = async (bot, message) => {
         return message.channel.send(`Shutting down... ${Pepega}`)
             .then(() => bot.destroy())
             .then(() => process.exit())
-            .catch(err => console.log(err));
+            .catch(err => message.reply(`Error ${err}`));
     } else {
         return message.reply("You don't have a permission for this command.");
     }

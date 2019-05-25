@@ -12,7 +12,7 @@ module.exports.run = async (bot, message, args, NaM) => {
         .addField(`${message.author.username} here is your advice ${OMGScoots}`, res.slip.advice);
         message.channel.send(cookieEmbed);
     })
-    .catch(console.log);
+    .catch(err => message.reply(`Error ${err}`));
 }
 
 module.exports.help = {

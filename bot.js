@@ -59,7 +59,7 @@ bot.on('message', message => {
 
             message.channel.send(`<@${message.author.id}> is back: ${result.reason} (${hours}h, ${minutes}m and ${Math.trunc(seconds)}s ago)`);
             //Checks if AFK type is gn or afk;
-            if( result.afkType == 'afk') return db.Afk.deleteOne({ userID: result.userID }).then(console.log('Message Deleted')).catch(console.log); 
+            if( result.afkType == 'afk') return db.Afk.deleteOne({ userID: result.userID }).then(console.log('Message Deleted')).catch(console.log);
 
             //Proceeds if AFK type is gn
             if(hours >= 9) {
@@ -102,7 +102,7 @@ bot.on('message', message => {
                 });
             }
         });
-    }).catch(console.log);
+    }).catch(console.log)
     
     //Notify checker
     db.Notify.find({ userID: message.author.id }).then(result => {

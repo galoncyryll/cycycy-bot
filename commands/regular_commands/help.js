@@ -25,7 +25,7 @@ module.exports.run = async (bot, message, args) => {
         .addField("Server Specific Commands", `${joined}`);
 
         return message.channel.send(serverCmdEmbed);
-    }).catch(console.log);
+    }).catch(err => message.reply(`Error ${err}`));
 
     Mods.findOne({ serverID: message.guild.id }).then(res => {
         if(res) {
@@ -47,7 +47,7 @@ module.exports.run = async (bot, message, args) => {
         } else {
             return;
         }
-    }).catch(console.log);
+    }).catch(err => message.reply(`Error ${err}`));
 }
 
 module.exports.help = {
