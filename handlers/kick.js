@@ -33,6 +33,6 @@ bot.on('guildMemberRemove', async member => {
                     return bot.channels.get(logRes.logChannelID).send(logEmbed);
                 }
             }
-        }).catch(err => message.reply(`Error ${err}`));
-    }).catch(err => message.reply(`Error ${err}`));
+        }).catch(console.log);
+    }).catch(console.log);
 });
