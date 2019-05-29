@@ -26,7 +26,7 @@ bot.on('guildMemberRemove', async member => {
                     .setColor('#ff0000')
                     .setAuthor(`[LEFT] | ${member.user.tag}`, member.user.avatarURL)
                     .addField('User', `<@${member.id}>`, true)
-                    .addField('Reason', 'Left the server.', true)
+                    .addField('Reason', 'Left the server', true)
                     .setFooter(`ID: ${member.id}`)
                     .setTimestamp();
 

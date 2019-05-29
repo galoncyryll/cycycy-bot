@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Pedofy = require('../../models/pedoModDB');
+const PedoMod = require('../../models/pedoModDB');
 
 module.exports.run = async (bot, message, args, NaM) => {
     if(!message.member.hasPermission("ADMINISTRATOR")) return message.reply(`Only administrator have permission for this command ${NaM}`);
@@ -11,7 +11,7 @@ module.exports.run = async (bot, message, args, NaM) => {
     if(!weebMod) return message.channel.send(`User not found ${NaM}`);
     const DansGame = bot.emojis.find(emoji => emoji.name === "DansGame");
 
-    const pedofy = new Pedofy({
+    const pedomod = new PedoMod({
         _id: mongoose.Types.ObjectId(),
         serverID: message.guild.id,
         serverName: message.guild.name,
@@ -19,7 +19,7 @@ module.exports.run = async (bot, message, args, NaM) => {
         userName: weebMod.name
     });
 
-    return pedofy.save().then(message.channel.send(`Pedo master added ${DansGame}`)).catch(err => message.reply(`Error ${err}`));
+    return pedomod.save().then(message.channel.send(`Pedo master added ${DansGame}`)).catch(err => message.reply(`Error ${err}`));
 }
 
 module.exports.help = {
