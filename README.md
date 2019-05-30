@@ -25,9 +25,9 @@ Invite link: https://discordapp.com/oauth2/authorize?client_id=53030519413145600
   **Enable/Disable the event logger (message deleted, member left, member kicked, etc.)**
   * Usage: !=setlogger <enable/disable> <channel_name> (channel name is optional only if you set it to disabled)
   
-   ### Set Mod Role (IMPORTANT TO SETUP)
+   ### Set Mod Role **(IMPORTANT TO SETUP)**
   **Sets the mod role of the server to be able to use mod commands**
-  * Usage: !=setmod <mod_name>
+  * Usage: !=setmod <mod_role_name>
   
 ## --- Mod Commands ---
   ### Adding/Deleting Ban Phrase
