@@ -122,7 +122,6 @@ bot.on('message', message => {
 
     //Ban Phrase checker
     db.BanPhrase.find({ serverID: message.guild.id }).then(res => {
-        if(message.member.roles.find(role => role.name === 'TriHard')) return;
         if(cmd.startsWith(prefix)) return;
         res.forEach(bp => {
             if(message.content.toUpperCase().includes(bp.banphrase.toUpperCase())) {

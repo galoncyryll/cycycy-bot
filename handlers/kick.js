@@ -21,12 +21,25 @@ bot.on('guildMemberRemove', async member => {
                         .setTimestamp();
 
                     return bot.channels.get(logRes.logChannelID).send(logEmbed);
+                } else if(auditKickedId === memberKickedId && audit.entries.first().action === 'MEMBER_BAN_ADD') {
+                    let reason = audit.entries.first().reason;
+                    let executor = audit.entries.first().executor.username
+                    let logEmbed = new Discord.RichEmbed()
+                        .setColor('#ff0000')
+                        .setAuthor(`[${audit.entries.first().action}] | ${member.user.tag}`, member.user.avatarURL)
+                        .addField('User', `<@${member.id}>`, true)
+                        .addField('Reason', reason, true)
+                        .addField('Executor', executor, true)
+                        .setFooter(`ID: ${member.id}`)
+                        .setTimestamp();
+
+                    return bot.channels.get(logRes.logChannelID).send(logEmbed);
                 } else {
                     let logEmbed = new Discord.RichEmbed()
                     .setColor('#ff0000')
                     .setAuthor(`[LEFT] | ${member.user.tag}`, member.user.avatarURL)
                     .addField('User', `<@${member.id}>`, true)
-                    .addField('Reason', 'Left the server', true)
+                    .addField('Reason', 'left the server', true)
                     .setFooter(`ID: ${member.id}`)
                     .setTimestamp();
 
