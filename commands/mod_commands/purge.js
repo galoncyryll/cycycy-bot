@@ -16,9 +16,7 @@ module.exports.run = async (bot, message, args, NaM) => {
                 if(!args[0]) return message.reply(`Please add number of messages ${NaM}`);
                 if(isNaN(args[0])) return message.reply(`Please use number as arguments. ${NaM}`);
 
-                return message.channel.bulkDelete(args[0]).then(bulk => {
-                    console.log(bulk);
-                }).catch(err => message.reply(`Error ${err}`));
+                return message.channel.bulkDelete(args[0])
                 
             } else {
                 return message.reply(`You don't have permission for this command ${NaM}`);

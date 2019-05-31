@@ -41,11 +41,17 @@ bot.on('message', message => {
     const PepegaPls = bot.emojis.find(emoji => emoji.name === "PepegaPls");
     const AYAYA = bot.emojis.find(emoji => emoji.name === "AYAYA");
     const OMGScoots = bot.emojis.find(emoji => emoji.name === "OMGScoots");
+    const WeirdChamp = bot.emojis.find(emoji => emoji.name = "WeirdChamp");
     
     // call command handler
     let cmdFile = bot.commands.get(cmd.slice(prefix.length));
     if (cmdFile && cmd.startsWith(prefix)) cmdFile.run(bot,message,args,NaM);
 
+    //test type 
+    if(message.isMentioned(bot.user)) {
+        message.channel.startTyping(100);
+        message.channel.stopTyping(true);
+    }
     //AFK checker
     db.Afk.findOne({ userID: message.author.id }).then(result => {
          if(result) {
