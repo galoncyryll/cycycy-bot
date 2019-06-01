@@ -6,6 +6,7 @@ module.exports.run = async (bot, message, args, NaM) => {
     if(args[0] === "help") {
         return message.reply("```Usage: !=setmod <mod_role_name>```");
     }
+
     let role = args.join(' ');
     let roleFinder = message.guild.roles.find(r => r.name === role);
 
@@ -23,8 +24,7 @@ module.exports.run = async (bot, message, args, NaM) => {
         } else {
             return mod.save().then(message.channel.send(`Mod role added ${NaM}`)).catch(err => message.reply(`Error ${err}`));
         }
-    })
-    
+    }).catch(err => message.reply(`Error ${err}`));
 }
 
 module.exports.help = {
