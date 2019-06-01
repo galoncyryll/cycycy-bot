@@ -41,13 +41,12 @@ bot.on('message', message => {
     const PepegaPls = bot.emojis.find(emoji => emoji.name === "PepegaPls");
     const AYAYA = bot.emojis.find(emoji => emoji.name === "AYAYA");
     const OMGScoots = bot.emojis.find(emoji => emoji.name === "OMGScoots");
-    const WeirdChamp = bot.emojis.find(emoji => emoji.name = "WeirdChamp");
     
     // call command handler
     let cmdFile = bot.commands.get(cmd.slice(prefix.length));
     if (cmdFile && cmd.startsWith(prefix)) cmdFile.run(bot,message,args,NaM);
 
-    //test type 
+    //type 
     if(message.isMentioned(bot.user)) {
         message.channel.startTyping(100);
         message.channel.stopTyping(true);
@@ -82,12 +81,12 @@ bot.on('message', message => {
             db.Afk.deleteOne({ userID: result.userID }).then(console.log('Message Deleted')).catch(console.log);
         }
     });
-
+    
     //AFK Tagged checker
     db.Afk.find({}).then(afkRes => {
         afkRes.forEach(res => {
             if(message.isMentioned(res.userID)){
-                if (cmd === '!=tuck' || cmd === '!=notify') return;
+                if (cmd.startsWith(prefix)) return;
                 const notifyUser =  message.guild.member(message.mentions.users.first());
 
                 const notify = new db.Notify({
@@ -125,7 +124,7 @@ bot.on('message', message => {
             });
         }
     });
-
+    
     //Ban Phrase checker
     db.BanPhrase.find({ serverID: message.guild.id }).then(res => {
         if(cmd.startsWith(prefix)) return;

@@ -11,10 +11,11 @@ module.exports.run = async (bot, message, args, NaM) => {
     Mods.findOne({ serverID: message.guild.id }).then(res => {
         if(res) {
             let serverRole = message.guild.roles.get(res.modName)
+            const PepeS = bot.emojis.find(emoji => emoji.name === "PepeS");
             if(res.modName === serverRole.id && message.member.roles.has(serverRole.id)|| message.member.hasPermission('ADMINISTRATOR')) {
                 if(!toMute) return message.channel.send(`User not found ${NaM}`);
                 if(toMute.id === "487797385691398145") {
-                    return message.reply(`Can't mute my master ${monkaS}`)
+                    return message.reply(`Can't mute my master ${PepeS}`)
                 } else if(toMute.hasPermission("ADMINISTRATOR")) {
                     return message.reply(`Can't mute administrator ${NaM}`);
                 } else if(message.member.id === "487797385691398145") {
@@ -23,14 +24,14 @@ module.exports.run = async (bot, message, args, NaM) => {
                     return message.reply(`Can't mute a mod ${NaM}`);
                 }
 
-                let muteRole = message.guild.roles.find(x => x.name === 'muted');
+                let muteRole = message.guild.roles.find(role => role.name === 'muted');
                 if(!muteRole) {
                     try {
                         muteRole = message.guild.createRole({
                             name: 'muted',
-                            color: 'red',
+                            color: '#ff0000',
                             permissions: []
-                        });
+                        })
                         message.guild.channels.forEach(async (channel, id) => {
                             await channel.overwritePermissions(muteRole, {
                                 SEND_MESSAGES: false,
