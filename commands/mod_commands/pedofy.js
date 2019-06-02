@@ -24,11 +24,11 @@ module.exports.run = async (bot, message, args, NaM) => {
                 permissions: ['SEND_MESSAGES']
             })
             .then(prole => pedo.addRole(prole.id))
-            .then(message.channel.send(`<@${pedo.id}> is now a Pedo`))
+            .then(message.channel.send(`${pedo.user.username} is now a Pedo`))
             .catch(err => message.reply(`Error ${err}`));
         } else {
             return pedo.addRole(pedoRole)
-            .then(message.channel.send(`<@${pedo.id}> is now a Pedo`))
+            .then(message.channel.send(`${pedo.user.username} is now a Pedo`))
             .catch(err => message.reply(`Error ${err}`));
         }
             

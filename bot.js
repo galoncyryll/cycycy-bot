@@ -199,7 +199,7 @@ bot.on('message', message => {
                 message.react("🚪").catch(console.log);
             }).catch(console.log);
         }).catch(console.log);
-     }
+    }
 });
 
 bot.login(process.env.BOT_TOKEN);
