@@ -9,7 +9,6 @@ module.exports.run = async (bot, message, args, NaM) => {
     fetch(`https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${word}?key=${process.env.DICTIONARY_KEY}`)
         .then(res => res.json())
         .then(definition => {
-            console.log(definition)
             if(!definition || !definition[0].meta) {
                 let wordEmbed = new Discord.RichEmbed()
                 .setColor('#ff0000')
@@ -35,10 +34,10 @@ module.exports.run = async (bot, message, args, NaM) => {
                     .addField('Example: ', '```' + example +'```')
                     .setFooter('Powered by Merriam Webster API', 'https://www.merriam-webster.com/assets/mw/static/app-standalone-images/MW_logo.png')
                 await message.channel.send(wordEmbed);
-            })
-        }).catch(message.channel.send(`No results found.`));
+            });
+        }).catch(err => console.log(err));
 }
 
 module.exports.help = {
-    name : 'dictionary'
+    name : 'thesaurus'
 }
