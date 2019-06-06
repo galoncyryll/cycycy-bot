@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 
 module.exports.run = async (bot, message, args, NaM) => {
     if(args[0] === "help") {
-        message.channel.send("```Usage: !=dictionary <word>```");
+        message.channel.send("```Usage: !=thesaurus <word>```");
         return;
     }
     let word = args.join(' ');
@@ -35,7 +35,7 @@ module.exports.run = async (bot, message, args, NaM) => {
                     .setFooter('Powered by Merriam Webster API', 'https://www.merriam-webster.com/assets/mw/static/app-standalone-images/MW_logo.png')
                 await message.channel.send(wordEmbed);
             });
-        }).catch(err => console.log(err));
+        }).catch(err => message.channel.send('No Results found.'));
 }
 
 module.exports.help = {
