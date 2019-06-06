@@ -7,6 +7,7 @@ require('dotenv').config();
 module.exports = bot;
 require('./fsCommandReader');
 require('./handlers/kick');
+require('./handlers/onMessageDelete');
 
 //bot commands collection
 bot.commands = new Discord.Collection();
@@ -153,20 +154,7 @@ bot.on('message', message => {
             if(message.content.toUpperCase().includes(bp.banphrase.toUpperCase())) {
                 const weirdChamp = bot.emojis.find(emoji => emoji.name === "WeirdChamp");
                 message.delete().then(deletedMessage => {
-                    db.Logger.findOne({ serverID: message.guild.id }).then(logRes => {
-                        if(logRes.isEnabled && logRes.isEnabled === 'enable') {
-                            let logEmbed = new Discord.RichEmbed()
-                                .setColor('#ff0000')
-                                .setAuthor(`[DELETE] | ${deletedMessage.author.tag}`, deletedMessage.author.avatarURL)
-                                .addField('User', `<@${deletedMessage.author.id}>`, true)
-                                .addField('Reason', 'Matched Ban Phrase', true)
-                                .addField('Message', deletedMessage.content)
-                                .setFooter(`ID: ${deletedMessage.id}`)
-                                .setTimestamp();
-
-                            return bot.channels.get(logRes.logChannelID).send(logEmbed);
-                        }
-                    }).catch(console.log);
+                    
                 }).catch(console.log);
                 message.reply(`No lacism here ${weirdChamp}`);
             }
