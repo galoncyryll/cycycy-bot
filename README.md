@@ -89,6 +89,10 @@ Invite link: https://discordapp.com/oauth2/authorize?client_id=53030519413145600
   **Gives you a fact about cats OMGSCoots**
   * Usage: !=catfact
 
+  ### Thesaurus
+  **Gives you the definition of a word and example**
+  * Usage: !=thesaurus <word>
+
 
 # Upcoming features
 ### Weather search
