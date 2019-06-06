@@ -46,7 +46,7 @@ module.exports.run = async (bot, message, args) => {
                     let adminEmbed = new Discord.RichEmbed()
                     .setDescription("Admin Help Menu")
                     .setColor("#008fff")
-                    .addField("Admin Commands", `setmod | sets mod role for the server **IMPORTANT TO SETUP!** \n delmod | deletes a mod role in server \n rc | counts how many members a role has \n setlogger | sets the logger channel in the server`)
+                    .addField("Admin Commands", `setmod | sets mod role for the server **IMPORTANT TO SETUP!** \n delmod | deletes a mod role in server \n rc | counts how many members a role has \n setlogger | sets the logger channel in the server \n test | tests if the bot is running \n stats | server count`)
     
                     try {
                         message.author.send(adminEmbed);

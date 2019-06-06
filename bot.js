@@ -38,7 +38,6 @@ bot.on('message', message => {
     let args = messageArray.slice(1);
     //Emotes
     const NaM = bot.emojis.find(emoji => emoji.name === "NaM");
-    const PepegaPls = bot.emojis.find(emoji => emoji.name === "PepegaPls");
     const AYAYA = bot.emojis.find(emoji => emoji.name === "AYAYA");
     const OMGScoots = bot.emojis.find(emoji => emoji.name === "OMGScoots");
     
@@ -62,7 +61,7 @@ bot.on('message', message => {
             let minutes = Math.floor(totalSecs / 60);
             let seconds = totalSecs % 60;
 
-            message.channel.send(`<@${message.author.id}> is back: ${result.reason} (${hours}h, ${minutes}m and ${Math.trunc(seconds)}s ago)`);
+            message.channel.send(`<@${message.author.id}> is back (${hours}h, ${minutes}m and ${Math.trunc(seconds)}s ago): ${result.reason}`);
             //Checks if AFK type is gn or afk;
             if( result.afkType == 'afk') return db.Afk.deleteOne({ userID: result.userID }).then(console.log('Message Deleted')).catch(console.log);
 
@@ -95,7 +94,8 @@ bot.on('message', message => {
                     userID: res.userID,
                     senderName: message.author.username,
                     serverName: message.guild.name,
-                    notifyMsg: message.content
+                    notifyMsg: message.content,
+                    date: new Date()
                 });
             
                 db.Notify.find({ userID: res.userID }).then(notifyRes => {
@@ -108,15 +108,26 @@ bot.on('message', message => {
             }
         });
     }).catch(console.log)
-    
+
     //Notify checker
     db.Notify.find({ userID: message.author.id }).then(result => {
         if(result.length >= 1) {
+            message.reply(`You have notifications ${NaM}`);
+
             result.forEach(resData => {
+            let newTime = new Date();
+            let ms = newTime - resData.date;
+            let totalSecs = (ms / 1000);
+            let hours = Math.floor(totalSecs / 3600);
+            totalSecs %= 3600;
+            let minutes = Math.floor(totalSecs / 60);
+            let seconds = totalSecs % 60;
+            
             let notifyEmbed = new Discord.RichEmbed()
                 .setColor("#4e1df2")
-                .addField(`**${resData.senderName}** sent you a message from **${resData.serverName}** server:`,  resData.notifyMsg);
-            message.reply(notifyEmbed)
+                .setAuthor(`${resData.senderName} sent you a message from ${resData.serverName} server:`,  resData.senderAvatar)
+                .addField(`Message (${hours}h, ${minutes}m and ${Math.trunc(seconds)}s ago): `, resData.notifyMsg)
+            message.channel.send(notifyEmbed)
             .then(() => {
                 db.Notify.deleteOne({ userID: resData.userID }).then(console.log('Message Deleted')).catch(console.log);
             })
@@ -124,7 +135,17 @@ bot.on('message', message => {
             });
         }
     });
-    
+
+    //Custom command checker
+    if(cmd.startsWith(prefix)){
+        let cmdChk = cmd.slice(2);
+        db.Cmd.findOne({ serverID: message.guild.id, commandName: cmdChk }).then(res => {
+            if (res) {
+                return message.channel.send(res.commandRes);
+            }
+        }).catch(console.log);
+    };
+   
     //Ban Phrase checker
     db.BanPhrase.find({ serverID: message.guild.id }).then(res => {
         if(cmd.startsWith(prefix)) return;
@@ -151,42 +172,6 @@ bot.on('message', message => {
             }
         })
     });
-
-    //Custom command checker
-    if(cmd.startsWith(prefix)){
-        let cmdChk = cmd.slice(2);
-        db.Cmd.findOne({ serverID: message.guild.id, commandName: cmdChk }).then(res => {
-            if (res) {
-                return message.channel.send(res.commandRes);
-            }
-        }).catch(console.log);
-    };
-
-    // test command
-    if(cmd === `${prefix}test`) {
-        if(!message.member.hasPermission('ADMINISTRATOR')) return message.reply(`You don't have a permission for this command. ${NaM}`);
-        return message.channel.send(`RUNNING ${PepegaPls}`);
-    }
-
-    //Stats command
-    if(cmd === `${prefix}stats`) {
-        if(!message.member.hasPermission('ADMINISTRATOR')) return message.reply(`You don't have a permission for this command. ${NaM}`);
-        return message.channel.send(`${bot.user.username} is online! on ${bot.guilds.size} servers!`);
-    }
-
-    //Avatar Command
-    if(cmd === `${prefix}avatar`) {
-        let aUser = message.guild.member(message.mentions.users.first() || message.author);
-        if(args[0] === "help") {
-            message.channel.send("```Usage: !=avatar <user/empty>```");
-            return;
-        }
-        if(!aUser) return message.channel.send(`User not found ${NaM}`);
-
-        let avatarEmbed = new Discord.RichEmbed()
-            .setImage(aUser.user.displayAvatarURL);
-        return message.channel.send(avatarEmbed);
-    }
 
     // get rid of weebs NaM
     if(message.content.includes(AYAYA) || message.content.toUpperCase().includes("AYAYA")) {

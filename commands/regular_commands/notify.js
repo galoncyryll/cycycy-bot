@@ -16,8 +16,10 @@ module.exports.run = async (bot, message, args, NaM) => {
         username: notifyUser.user.username,
         userID: notifyUser.id,
         senderName: message.author.username,
+        senderAvatar: message.member.user.avatarURL,
         serverName: message.guild.name,
-        notifyMsg: notifyMsg
+        notifyMsg: notifyMsg,
+        date: new Date()
     });
 
     Notify.find({ userID: notifyUser.id }).then(results => {

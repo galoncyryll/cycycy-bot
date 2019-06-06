@@ -5,8 +5,10 @@ const notifySchema = mongoose.Schema({
     username: String,
     userID: String,
     senderName: String,
+    senderAvatar: String,
     serverName: String,
-    notifyMsg: String
+    notifyMsg: String,
+    date: Date
 });
 
 
