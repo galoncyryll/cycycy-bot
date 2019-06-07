@@ -146,17 +146,12 @@ bot.on('message', message => {
             }
         }).catch(console.log);
     };
-   
     //Ban Phrase checker
     db.BanPhrase.find({ serverID: message.guild.id }).then(res => {
-        if(cmd.startsWith(prefix)) return;
         res.forEach(bp => {
             if(message.content.toUpperCase().includes(bp.banphrase.toUpperCase())) {
                 const weirdChamp = bot.emojis.find(emoji => emoji.name === "WeirdChamp");
-                message.delete().then(deletedMessage => {
-                    
-                }).catch(console.log);
-                message.reply(`No lacism here ${weirdChamp}`);
+                return message.delete().then(message.reply(`Your message matched the ban phrase in this server ${weirdChamp}`)).catch(console.log); 
             }
         })
     });
