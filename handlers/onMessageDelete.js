@@ -3,21 +3,14 @@ const bot = require('../bot');
 const db = require('../settings/databaseImport');
 
 bot.on('messageDelete', async message => {
-    const bp = await db.BanPhrase.find({ serverID: message.guild.id }).then(banPhrase => {
-        return banPhrase.map(banPhraseItems => {
-            if(message.content.toUpperCase().includes(banPhraseItems.banphrase.toUpperCase())) {
-                return banPhraseItems.banphrase
-            }
-        });
-    });
-    const logger = banPhrase => {
+    const logger = (logArgs) => {
         db.Logger.findOne({ serverID: message.guild.id }).then(logRes => {
             if(logRes.isEnabled && logRes.isEnabled === 'enable') {
                 let logEmbed = new Discord.RichEmbed()
                     .setColor('#ff0000')
-                    .setAuthor(`[${auditLog.action}] | ${message.author.username}`, message.author.avatarURL)
+                    .setAuthor(`[MESSAGE_DELETE] | ${message.author.username}`, message.author.avatarURL)
                     .addField('User', `<@${message.author.id}>`, true)
-                    .addField('Reason', bp ? `Matched ban phrase ${bp}` : `Deleted by <@${auditLog.executor.id}>`, true)
+                    .addField('Reason', logArgs, true)
                     .addField('Message', message.content)
                     .setFooter(`MESSAGE ID: ${message.id}`)
                     .setTimestamp();
@@ -27,9 +20,18 @@ bot.on('messageDelete', async message => {
         }).catch(console.log);
     };
 
-    if(bp) {
-        message.guild.fetchAuditLogs(auditLog => {
-            
+   db.BanPhrase.find({ serverID: message.guild.id }).then(banPhrase => {
+        let bpIdentifier = false;
+        banPhrase.forEach(banPhraseItems => {
+            if(message.content.toUpperCase().includes(banPhraseItems.banphrase.toUpperCase())) {
+                bpIdentifier = true;
+                return logger(`Match ban phrase: **${banPhraseItems.banphrase}**`);
+            }
         });
-    }
+        if(bpIdentifier) {
+            return
+        } else {
+            return logger(`Message deleted`)
+        }
+    });
 });
