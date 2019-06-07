@@ -18,6 +18,7 @@ module.exports.run = async (bot, message, args, NaM) => {
                 const banphrase = new BanPhrase({
                     _id: mongoose.Types.ObjectId(),
                     serverID: message.guild.id,
+                    serverName: message.guild.name,
                     banphrase: bp
                 });
 

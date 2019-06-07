@@ -20,5 +20,5 @@ module.exports.run = async (bot, message, args, NaM) => {
 }
 
 module.exports.help = {
-    name : 'delmod'
+    name : 'delweebmod'
 }

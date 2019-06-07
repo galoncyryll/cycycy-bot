@@ -15,6 +15,7 @@ module.exports.run = async (bot, message, args, NaM ) => {
         const logger = new Logger({
             _id: mongoose.Types.ObjectId(),
             serverID: message.guild.id,
+            serverName: message.guild.name,
             logChannelID: channelFinder.id,
             isEnabled: isEnabled
         });
@@ -33,7 +34,7 @@ module.exports.run = async (bot, message, args, NaM ) => {
                 return Logger.updateOne({ serverID: message.guild.id },
                     { isEnabled: isEnabled, logChannelID: ''}).then(message.channel.send(`Logger disabled successfully!`)).catch(err => message.reply(`Error ${err}`));
             } else {
-                return message.channel.send('Logger has not been setup in this server yet'+ NaM + 'Please use `!=setlogger help` for more info,');
+                return message.channel.send('Logger has not been setup in this server yet'+ NaM + 'Please use `!=setlogger help` for more info.');
             }
         });
         

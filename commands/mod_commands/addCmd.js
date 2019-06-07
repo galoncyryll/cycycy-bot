@@ -20,6 +20,7 @@ module.exports.run = async (bot, message, args, NaM) => {
                 const cmd = new Cmd({
                     _id: mongoose.Types.ObjectId(),
                     serverID: message.guild.id,
+                    serverName: message.guild.name,
                     commandName: args[0],
                     commandRes: res
                 });
