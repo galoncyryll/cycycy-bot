@@ -63,6 +63,10 @@ Invite link: https://discordapp.com/oauth2/authorize?client_id=53030519413145600
   **Returns a summary of the user's input from wikipedia**
   * Usage: !=wiki <search_word> (word you want to search from wikipedia)
 
+  ### Avatar
+  **Shows the user's avatar**
+  * Usage: !=avatar <user> (optional)
+
   ### Get User Info
   **Shows the user's information in the server**
   * Usage: !=userinfo <tag_user> (optional)
@@ -88,6 +92,10 @@ Invite link: https://discordapp.com/oauth2/authorize?client_id=53030519413145600
   ### Cat facts HYPERS!!
   **Gives you a fact about cats OMGSCoots**
   * Usage: !=catfact
+
+  ### Thesaurus
+  **Gives you the definition of a word and example**
+  * Usage: !=thesaurus <word>
 
 
 # Upcoming features

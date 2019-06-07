@@ -7,6 +7,7 @@ require('dotenv').config();
 module.exports = bot;
 require('./fsCommandReader');
 require('./handlers/kick');
+require('./handlers/onMessageDelete');
 
 //bot commands collection
 bot.commands = new Discord.Collection();
@@ -38,7 +39,6 @@ bot.on('message', message => {
     let args = messageArray.slice(1);
     //Emotes
     const NaM = bot.emojis.find(emoji => emoji.name === "NaM");
-    const PepegaPls = bot.emojis.find(emoji => emoji.name === "PepegaPls");
     const AYAYA = bot.emojis.find(emoji => emoji.name === "AYAYA");
     const OMGScoots = bot.emojis.find(emoji => emoji.name === "OMGScoots");
     
@@ -62,7 +62,7 @@ bot.on('message', message => {
             let minutes = Math.floor(totalSecs / 60);
             let seconds = totalSecs % 60;
 
-            message.channel.send(`<@${message.author.id}> is back: ${result.reason} (${hours}h, ${minutes}m and ${Math.trunc(seconds)}s ago)`);
+            message.channel.send(`<@${message.author.id}> is back (${hours}h, ${minutes}m and ${Math.trunc(seconds)}s ago): ${result.reason}`);
             //Checks if AFK type is gn or afk;
             if( result.afkType == 'afk') return db.Afk.deleteOne({ userID: result.userID }).then(console.log('Message Deleted')).catch(console.log);
 
@@ -95,7 +95,8 @@ bot.on('message', message => {
                     userID: res.userID,
                     senderName: message.author.username,
                     serverName: message.guild.name,
-                    notifyMsg: message.content
+                    notifyMsg: message.content,
+                    date: new Date()
                 });
             
                 db.Notify.find({ userID: res.userID }).then(notifyRes => {
@@ -108,48 +109,32 @@ bot.on('message', message => {
             }
         });
     }).catch(console.log)
-    
+
     //Notify checker
     db.Notify.find({ userID: message.author.id }).then(result => {
         if(result.length >= 1) {
+            message.reply(`You have notifications ${NaM}`);
+
             result.forEach(resData => {
+            let newTime = new Date();
+            let ms = newTime - resData.date;
+            let totalSecs = (ms / 1000);
+            let hours = Math.floor(totalSecs / 3600);
+            totalSecs %= 3600;
+            let minutes = Math.floor(totalSecs / 60);
+            let seconds = totalSecs % 60;
+            
             let notifyEmbed = new Discord.RichEmbed()
                 .setColor("#4e1df2")
-                .addField(`**${resData.senderName}** sent you a message from **${resData.serverName}** server:`,  resData.notifyMsg);
-            message.reply(notifyEmbed)
+                .setAuthor(`${resData.senderName} sent you a message from ${resData.serverName} server:`,  resData.senderAvatar)
+                .addField(`Message (${hours}h, ${minutes}m and ${Math.trunc(seconds)}s ago): `, resData.notifyMsg)
+            message.channel.send(notifyEmbed)
             .then(() => {
                 db.Notify.deleteOne({ userID: resData.userID }).then(console.log('Message Deleted')).catch(console.log);
             })
             .catch(console.log);
             });
         }
-    });
-    
-    //Ban Phrase checker
-    db.BanPhrase.find({ serverID: message.guild.id }).then(res => {
-        if(cmd.startsWith(prefix)) return;
-        res.forEach(bp => {
-            if(message.content.toUpperCase().includes(bp.banphrase.toUpperCase())) {
-                const weirdChamp = bot.emojis.find(emoji => emoji.name === "WeirdChamp");
-                message.delete().then(deletedMessage => {
-                    db.Logger.findOne({ serverID: message.guild.id }).then(logRes => {
-                        if(logRes.isEnabled && logRes.isEnabled === 'enable') {
-                            let logEmbed = new Discord.RichEmbed()
-                                .setColor('#ff0000')
-                                .setAuthor(`[DELETE] | ${deletedMessage.author.tag}`, deletedMessage.author.avatarURL)
-                                .addField('User', `<@${deletedMessage.author.id}>`, true)
-                                .addField('Reason', 'Matched Ban Phrase', true)
-                                .addField('Message', deletedMessage.content)
-                                .setFooter(`ID: ${deletedMessage.id}`)
-                                .setTimestamp();
-
-                            return bot.channels.get(logRes.logChannelID).send(logEmbed);
-                        }
-                    }).catch(console.log);
-                }).catch(console.log);
-                message.reply(`No lacism here ${weirdChamp}`);
-            }
-        })
     });
 
     //Custom command checker
@@ -161,32 +146,20 @@ bot.on('message', message => {
             }
         }).catch(console.log);
     };
-
-    // test command
-    if(cmd === `${prefix}test`) {
-        if(!message.member.hasPermission('ADMINISTRATOR')) return message.reply(`You don't have a permission for this command. ${NaM}`);
-        return message.channel.send(`RUNNING ${PepegaPls}`);
-    }
-
-    //Stats command
-    if(cmd === `${prefix}stats`) {
-        if(!message.member.hasPermission('ADMINISTRATOR')) return message.reply(`You don't have a permission for this command. ${NaM}`);
-        return message.channel.send(`${bot.user.username} is online! on ${bot.guilds.size} servers!`);
-    }
-
-    //Avatar Command
-    if(cmd === `${prefix}avatar`) {
-        let aUser = message.guild.member(message.mentions.users.first() || message.author);
-        if(args[0] === "help") {
-            message.channel.send("```Usage: !=avatar <user/empty>```");
-            return;
-        }
-        if(!aUser) return message.channel.send(`User not found ${NaM}`);
-
-        let avatarEmbed = new Discord.RichEmbed()
-            .setImage(aUser.user.displayAvatarURL);
-        return message.channel.send(avatarEmbed);
-    }
+   
+    //Ban Phrase checker
+    db.BanPhrase.find({ serverID: message.guild.id }).then(res => {
+        if(cmd.startsWith(prefix)) return;
+        res.forEach(bp => {
+            if(message.content.toUpperCase().includes(bp.banphrase.toUpperCase())) {
+                const weirdChamp = bot.emojis.find(emoji => emoji.name === "WeirdChamp");
+                message.delete().then(deletedMessage => {
+                    
+                }).catch(console.log);
+                message.reply(`No lacism here ${weirdChamp}`);
+            }
+        })
+    });
 
     // get rid of weebs NaM
     if(message.content.includes(AYAYA) || message.content.toUpperCase().includes("AYAYA")) {

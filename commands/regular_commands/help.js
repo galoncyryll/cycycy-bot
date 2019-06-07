@@ -41,6 +41,19 @@ module.exports.run = async (bot, message, args) => {
                     } catch(e) {
                         message.reply("Your DMs are locked. I can't send mod commands")
                     }
+
+                if(message.member.hasPermission('ADMINISTRATOR')) {
+                    let adminEmbed = new Discord.RichEmbed()
+                    .setDescription("Admin Help Menu")
+                    .setColor("#008fff")
+                    .addField("Admin Commands", `setmod | sets mod role for the server **IMPORTANT TO SETUP!** \n delmod | deletes a mod role in server \n rc | counts how many members a role has \n setlogger | sets the logger channel in the server \n test | tests if the bot is running \n stats | server count`)
+    
+                    try {
+                        message.author.send(adminEmbed);
+                    } catch(e) {
+                        message.reply("Your DMs are locked. I can't send admin commands")
+                    }
+                }
             } else {
                 return;
             }
