@@ -15,6 +15,7 @@ module.exports.run = async (bot, message, args, NaM) => {
     const mod = new Mod({
         _id: mongoose.Types.ObjectId(),
         serverID: message.guild.id,
+        serverName: message.guild.name,
         modName: roleFinder.id
     });
 

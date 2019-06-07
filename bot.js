@@ -27,7 +27,7 @@ bot.on('ready', async () => {
 })
 
 bot.on('error', console.error); // error handler
-
+    
 bot.on('message', message => {
     if(message.author.bot) return;
     if(message.channel.type === 'dm') return;
