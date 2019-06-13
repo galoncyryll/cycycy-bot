@@ -1,6 +1,8 @@
 const Discord = require('discord.js');
 const bot = require('../bot');
+const mongoose = require('mongoose');
 const db = require('../settings/databaseImport');
+const leaveQueueDB = require('../models/leaveQueueDB');
 
 bot.on('guildMemberRemove', async member => {
     await member.guild.fetchAuditLogs().then(audit => {
@@ -35,15 +37,33 @@ bot.on('guildMemberRemove', async member => {
 
                     return bot.channels.get(logRes.logChannelID).send(logEmbed);
                 } else {
-                    let logEmbed = new Discord.RichEmbed()
-                    .setColor('#ff0000')
-                    .setAuthor(`[LEFT] | ${member.user.tag}`, member.user.avatarURL)
-                    .addField('User', `<@${member.id}>`, true)
-                    .addField('Reason', 'left the server', true)
-                    .setFooter(`ID: ${member.id}`)
-                    .setTimestamp();
+                    if(logRes.leaveQueueLimit >= 1) {
+                        leaveQueueDB.findOne({ serverID: member.guild.id }).then(leaveRes => {
+                            if(leaveRes) {
+                                console.log('nam')
+                            } else {
+                                const memberLeave = new leaveQueueDB({
+                                    _id: mongoose.Types.ObjectId(),
+                                    serverID: member.guild.id,
+                                    serverName: member.guild.name,
+                                    membersLeft: [member.id]
+                                });
 
-                    return bot.channels.get(logRes.logChannelID).send(logEmbed);
+                                return memberLeave.save().then(console.log).catch(err => `Error: ${err}`);
+                            }
+                        })
+                    } else {
+                        let logEmbed = new Discord.RichEmbed()
+                            .setColor('#ff0000')
+                            .setAuthor(`[LEFT] | ${member.user.tag}`, member.user.avatarURL)
+                            .addField('User', `<@${member.id}>`, true)
+                            .addField('Reason', 'left the server', true)
+                            .setFooter(`ID: ${member.id}`)
+                            .setTimestamp();
+
+                        return bot.channels.get(logRes.logChannelID).send(logEmbed);
+                    }
+                    
                 }
             }
         }).catch(console.log);

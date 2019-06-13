@@ -5,7 +5,8 @@ const loggerSchema = mongoose.Schema({
     serverID: String,
     serverName: String,
     logChannelID: String,
-    isEnabled: String
+    isEnabled: String,
+    leaveQueueLimit: Number
 });
 
 
