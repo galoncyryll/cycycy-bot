@@ -33,17 +33,6 @@ module.exports.run = async (bot, message, args, NaM) => {
 
                                 return bot.channels.get(logRes.logChannelID).send(logEmbed);
                             });
-                            // let logEmbed = new Discord.RichEmbed()
-                            //     .setColor('#ff0000')
-                            //     .setAuthor(`[MESSAGE_DELETE] | ${message.author.username}`, message.author.avatarURL)
-                            //     .addField('User', `<@${message.author.id}>`, true)
-                            //     .addField('Reason', logArgs, true)
-                            //     .addField('Message', message.content)
-                            //     .setFooter(`MESSAGE ID: ${message.id}`)
-                            //     .setTimestamp();
-            
-                            // return bot.channels.get(logRes.logChannelID).send(messages.content);
-
                         }
                     }).catch(console.log);
                 })
