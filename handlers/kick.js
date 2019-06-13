@@ -40,7 +40,19 @@ bot.on('guildMemberRemove', async member => {
                     if(logRes.leaveQueueLimit >= 1) {
                         leaveQueueDB.findOne({ serverID: member.guild.id }).then(leaveRes => {
                             if(leaveRes) {
-                                console.log('nam')
+                                if(leaveRes.membersLeft.length >= logRes.leaveQueueLimit) {
+                                    let bulkLogEmbed = new Discord.RichEmbed()
+                                    .setColor('#ff0000')
+                                    .setAuthor(`[MEMBERS_LEFT] | ${leaveRes.membersLeft.length} members`)
+                                    .addField('Users', leaveRes.membersLeft.map(members => `<@${members}>`).join(' | '))
+                                    .addField('Reason', 'Left the server')
+                                    .setTimestamp();
+
+                                    return bot.channels.get(logRes.logChannelID).send(bulkLogEmbed);
+                                } else {
+                                    leaveRes.membersLeft.push(member.id);
+                                    return leaveRes.save();
+                                }
                             } else {
                                 const memberLeave = new leaveQueueDB({
                                     _id: mongoose.Types.ObjectId(),
