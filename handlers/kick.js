@@ -48,7 +48,9 @@ bot.on('guildMemberRemove', async member => {
                                     .addField('Reason', 'Left the server')
                                     .setTimestamp();
 
-                                    return bot.channels.get(logRes.logChannelID).send(bulkLogEmbed);
+                                    return bot.channels.get(logRes.logChannelID).send(bulkLogEmbed).then(()=> {
+                                        return leaveQueueDB.deleteOne({ serverID: member.guild.id }).then(console.log('guild limit deleted')).catch(err => console.log(err));
+                                    });
                                 } else {
                                     leaveRes.membersLeft.push(member.id);
                                     return leaveRes.save();
@@ -63,7 +65,7 @@ bot.on('guildMemberRemove', async member => {
 
                                 return memberLeave.save().then(console.log).catch(err => `Error: ${err}`);
                             }
-                        })
+                        }).catch(err => console.log(err));
                     } else {
                         let logEmbed = new Discord.RichEmbed()
                             .setColor('#ff0000')
