@@ -94,6 +94,7 @@ bot.on('message', message => {
                     username: notifyUser.user.username,
                     userID: res.userID,
                     senderName: message.author.username,
+                    senderAvatar: message.member.user.avatarURL,
                     serverName: message.guild.name,
                     notifyMsg: message.content,
                     date: new Date()
