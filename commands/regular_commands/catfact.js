@@ -5,6 +5,10 @@ module.exports.run = async (bot, message, args) => {
         message.channel.send("```Usage: !=catfact```");
         return;
     }
+    bot.cooldown.add(message.author.id);
+    setTimeout(() => {
+        bot.cooldown.delete(message.author.id);
+    }, 15000);
     fetch('https://cat-fact.herokuapp.com/facts/random')
     .then(res => res.json())
     .then(fact => {

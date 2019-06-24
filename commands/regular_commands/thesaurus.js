@@ -5,6 +5,10 @@ module.exports.run = async (bot, message, args, NaM) => {
         message.channel.send("```Usage: !=thesaurus <word>```");
         return;
     }
+    bot.cooldown.add(message.author.id);
+    setTimeout(() => {
+        bot.cooldown.delete(message.author.id);
+    }, 15000);
     let word = args.join(' ');
     fetch(`https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${word}?key=${process.env.DICTIONARY_KEY}`)
         .then(res => res.json())

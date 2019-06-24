@@ -12,8 +12,11 @@ require('./handlers/onMessageDelete');
 //bot commands collection
 bot.commands = new Discord.Collection();
 
+//global command cooldown
+bot.cooldown = new Set();
+
 //cookie command cooldown
-bot.cooldown = new Map();
+bot.cookieCD = new Map();
 
 //Database
 const db = require('./settings/databaseImport');
@@ -30,8 +33,9 @@ bot.on('ready', async () => {
 bot.on('error', console.error); // error handler
     
 bot.on('message', message => {
-    if(message.author.bot) return;
-    if(message.channel.type === 'dm') return;
+    if (message.author.bot) return;
+    if (message.channel.type === 'dm') return;
+    if (bot.cooldown.has(message.author.id)) return;
 
     let prefix = botconfig.prefix;
     let messageArray = message.content.split(' ');

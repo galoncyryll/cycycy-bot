@@ -1,11 +1,15 @@
 const Discord = require('discord.js');
 
 module.exports.run = async (bot, message, args, NaM) => {
-    let users = message.guild.member(message.mentions.users.first() || message.author);
     if(args[0] === "help") {
         message.channel.send("```Usage: !=userinfo <user or blank>```");
         return;
     }
+    bot.cooldown.add(message.author.id);
+    setTimeout(() => {
+        bot.cooldown.delete(message.author.id);
+    }, 15000);
+    let users = message.guild.member(message.mentions.users.first() || message.author);
     if(!users) return message.channel.send(`User not found ${NaM}`);
 
     let userIcon = users.user.displayAvatarURL;

@@ -17,9 +17,9 @@ module.exports.run = async (bot, message, args, NaM) => {
         return message.channel.send(`You can only use this command once per 24hrs (${timeRemainingHrs}hrs, ${timeRemainingMins}m and ${Math.trunc(timeRemainingSecs)}s)`);
     } else {
         let date = new Date()
-        bot.cooldown.set(message.author.id, date);
+        bot.cookieCD.set(message.author.id, date);
         setTimeout(() => {
-        bot.cooldown.delete(message.author.id);
+        bot.cookieCD.delete(message.author.id);
         }, 86400000); 
     }
     fetch(`http://fortunecookieapi.herokuapp.com/v1/cookie`)

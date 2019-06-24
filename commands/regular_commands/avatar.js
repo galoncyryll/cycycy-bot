@@ -6,6 +6,10 @@ module.exports.run = async (bot, message, args) => {
             message.channel.send("```Usage: !=avatar <user/empty>```");
             return;
         }
+        bot.cooldown.add(message.author.id);
+        setTimeout(() => {
+            bot.cooldown.delete(message.author.id);
+        }, 15000);
         if(!aUser) return message.channel.send(`User not found ${NaM}`);
 
         let avatarEmbed = new Discord.RichEmbed()
