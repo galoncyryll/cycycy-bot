@@ -2,9 +2,9 @@ const Discord = require('discord.js');
 
 
 module.exports.run = async (bot, message, args, NaM) => {
-    if (bot.cooldown.has(message.author.id)) {
+    if (bot.cookieCD.has(message.author.id)) {
         let newDate = new Date();
-        let lastDate = bot.cooldown.get(message.author.id);
+        let lastDate = bot.cookieCD.get(message.author.id);
         let ms = newDate - lastDate;
         
         let timeRemaining = 86400000 - ms;
