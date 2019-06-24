@@ -51,7 +51,7 @@ bot.on('message', message => {
     if(message.isMentioned(bot.user)) {
         message.channel.startTyping(100);
         setTimeout(() => {
-            message.channel.send(`${weirdChamp}❓`);
+            message.reply(`what ${weirdChamp}❓`);
             return message.channel.stopTyping(true);
         }, 2000);
     }
