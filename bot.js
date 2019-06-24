@@ -41,6 +41,7 @@ bot.on('message', message => {
     const NaM = bot.emojis.find(emoji => emoji.name === "NaM");
     const AYAYA = bot.emojis.find(emoji => emoji.name === "AYAYA");
     const OMGScoots = bot.emojis.find(emoji => emoji.name === "OMGScoots");
+    const weirdChamp = bot.emojis.find(emoji => emoji.name === "WeirdChamp");
     
     // call command handler
     let cmdFile = bot.commands.get(cmd.slice(prefix.length));
@@ -49,7 +50,10 @@ bot.on('message', message => {
     //type 
     if(message.isMentioned(bot.user)) {
         message.channel.startTyping(100);
-        message.channel.stopTyping(true);
+        setTimeout(() => {
+            message.channel.send(`${weirdChamp}❓`);
+            return message.channel.stopTyping(true);
+        }, 2000);
     }
     //AFK checker
     db.Afk.findOne({ userID: message.author.id }).then(result => {
@@ -62,7 +66,7 @@ bot.on('message', message => {
             let minutes = Math.floor(totalSecs / 60);
             let seconds = totalSecs % 60;
 
-            message.channel.send(`<@${message.author.id}> is back (${hours}h, ${minutes}m and ${Math.trunc(seconds)}s ago): ${result.reason}`);
+            message.channel.send(`${message.author.username} is back (${hours}h, ${minutes}m and ${Math.trunc(seconds)}s ago): ${result.reason}`);
             //Checks if AFK type is gn or afk;
             if( result.afkType == 'afk') return db.Afk.deleteOne({ userID: result.userID }).then(console.log('Message Deleted')).catch(console.log);
 
@@ -104,7 +108,7 @@ bot.on('message', message => {
                     if( notifyRes.length >= 5 ) { //message limiter
                         return message.reply(`${notifyUser} has already reached the limit of recieving messages ${NaM}`);
                     } else {
-                        return notify.save().then(() => message.reply(`<@${res.userID}> is afk but i will send him that message when he types in this server ${OMGScoots} 👍`)).catch(console.log);
+                        return notify.save().then(() => message.reply(`${notifyUser.user.username} is afk but i will send him that message when he types in this server ${OMGScoots} 👍`)).catch(console.log);
                     }
                 });
             }
@@ -147,11 +151,11 @@ bot.on('message', message => {
             }
         }).catch(console.log);
     };
+    
     //Ban Phrase checker
     db.BanPhrase.find({ serverID: message.guild.id }).then(res => {
         res.forEach(bp => {
             if(message.content.toUpperCase().includes(bp.banphrase.toUpperCase())) {
-                const weirdChamp = bot.emojis.find(emoji => emoji.name === "WeirdChamp");
                 return message.delete().then(message.reply(`Your message matched the ban phrase in this server ${weirdChamp}`)).catch(console.log); 
             }
         })
