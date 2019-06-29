@@ -18,5 +18,10 @@
     "opusscript": "0.0.6",
     "wikijs": "^5.0.0-alpha.1",
     "ytdl-core": "^0.29.1"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.18.0"
   }
 }

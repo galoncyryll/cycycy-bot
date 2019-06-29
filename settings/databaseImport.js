@@ -6,10 +6,10 @@ const BanPhrase = require('../models/banPhraseDB');
 const Logger = require('../models/loggerDB');
 
 module.exports = {
-    mongoose,
-    Notify,
-    Afk,
-    Cmd,
-    BanPhrase,
-    Logger
-}
+  mongoose,
+  Notify,
+  Afk,
+  Cmd,
+  BanPhrase,
+  Logger,
+};
