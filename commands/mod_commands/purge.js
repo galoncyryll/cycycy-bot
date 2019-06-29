@@ -1,6 +1,4 @@
-const Discord = require('discord.js');
-const mongoose = require('mongoose');
-const Cmd = require('../../models/customCommandsDB');
+const discord = require('discord.js');
 const Mods = require('../../models/modDBtest');
 const db = require('../../settings/databaseImport');
 
@@ -14,7 +12,7 @@ module.exports.run = async (bot, message, args, NaM) => {
   Mods.findOne({ serverID: message.guild.id }).then((res) => {
     if (res) {
       const serverRole = message.guild.roles.get(res.modName);
-      if (res.modName === serverRole.id && message.member.roles.has(serverRole.id) || message.member.hasPermission('ADMINISTRATOR')) {
+      if ((res.modName === serverRole.id && message.member.roles.has(serverRole.id)) || message.member.hasPermission('ADMINISTRATOR')) {
         if (!args[0]) return message.reply(`Please add number of messages ${NaM}`);
         if (isNaN(args[0])) return message.reply(`Please use number as arguments. ${NaM}`);
 
@@ -22,7 +20,7 @@ module.exports.run = async (bot, message, args, NaM) => {
           db.Logger.findOne({ serverID: message.guild.id }).then((logRes) => {
             if (logRes.isEnabled && logRes.isEnabled === 'enable') {
               messages.map((messagesItem) => {
-                const logEmbed = new Discord.RichEmbed()
+                const logEmbed = new discord.RichEmbed()
                   .setColor('#ff0000')
                   .setAuthor(`[PURGED] | ${messagesItem.author.username}`, messagesItem.author.avatarURL)
                   .addField('User', `<@${messagesItem.author.id}>`, true)

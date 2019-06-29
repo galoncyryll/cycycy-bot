@@ -1,4 +1,4 @@
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (bot, message) => {
   if (message.member.id === '487797385691398145') {
     const Pepega = bot.emojis.find(emoji => emoji.name === 'Pepega').toString();
     return message.channel.send(`Restarting... ${Pepega}`)

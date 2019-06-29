@@ -1,6 +1,10 @@
 const Discord = require('discord.js');
 
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (bot, message) => {
+  bot.cooldown.add(message.author.id);
+  setTimeout(() => {
+    bot.cooldown.delete(message.author.id);
+  }, 15000);
   const serverIcon = message.guild.iconURL;
   const serverEmbed = new Discord.RichEmbed()
     .setDescription(message.guild.name)

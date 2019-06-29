@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const Cmd = require('../../models/customCommandsDB');
 const Mods = require('../../models/modDBtest');
 
@@ -11,7 +10,7 @@ module.exports.run = async (bot, message, args, NaM) => {
   Mods.findOne({ serverID: message.guild.id }).then((res) => {
     if (res) {
       const serverRole = message.guild.roles.get(res.modName);
-      if (res.modName === serverRole.id && message.member.roles.has(serverRole.id) || message.member.hasPermission('ADMINISTRATOR')) {
+      if ((res.modName === serverRole.id && message.member.roles.has(serverRole.id)) || message.member.hasPermission('ADMINISTRATOR')) {
         const cmdRes = args.slice(1);
         if (!args[0]) return message.reply(`Please add a command name ${NaM}`);
         if (!cmdRes) return message.reply(`Please add a command response ${NaM}`);

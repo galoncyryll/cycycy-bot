@@ -6,6 +6,10 @@ module.exports.run = async (bot, message, args) => {
     message.channel.send('```Usage: !=translate <message>```');
     return;
   }
+  bot.cooldown.add(message.author.id);
+  setTimeout(() => {
+    bot.cooldown.delete(message.author.id);
+  }, 15000);
   const joinedArgs = args.join(' ');
   translate(joinedArgs, { to: 'en' }).then((res) => {
     const langEmbed = new Discord.RichEmbed()

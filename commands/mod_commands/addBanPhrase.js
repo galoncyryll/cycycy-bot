@@ -11,7 +11,7 @@ module.exports.run = async (bot, message, args, NaM) => {
   Mods.findOne({ serverID: message.guild.id }).then((res) => {
     if (res) {
       const serverRole = message.guild.roles.get(res.modName);
-      if (res.modName === serverRole.id && message.member.roles.has(serverRole.id) || message.member.hasPermission('ADMINISTRATOR')) {
+      if ((res.modName === serverRole.id && message.member.roles.has(serverRole.id)) || message.member.hasPermission('ADMINISTRATOR')) {
         const bp = args.join(' ');
         if (!bp) return message.reply(`Please add a word to be banned ${NaM}`);
 

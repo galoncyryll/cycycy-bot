@@ -1,11 +1,9 @@
-const Discord = require('discord.js');
+const discord = require('discord.js');
 const Cmd = require('../../models/customCommandsDB');
 const Mods = require('../../models/modDBtest');
 
-module.exports.run = async (bot, message, args) => {
-  const hUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
-
-  const helpEmbed = new Discord.RichEmbed()
+module.exports.run = async (bot, message) => {
+  const helpEmbed = new discord.RichEmbed()
     .setDescription('Help Menu')
     .setColor('#4286f4')
     .addField('Command Help', 'do **!=<command_name> help** for command usage')
@@ -19,7 +17,7 @@ module.exports.run = async (bot, message, args) => {
 
     const joined = cmdArr.join(' \n');
 
-    const serverCmdEmbed = new Discord.RichEmbed()
+    const serverCmdEmbed = new discord.RichEmbed()
       .setDescription('Server Commands')
       .setColor('#23ff74')
       .addField('Server Specific Commands', `${joined}`);
@@ -30,8 +28,8 @@ module.exports.run = async (bot, message, args) => {
   Mods.findOne({ serverID: message.guild.id }).then((res) => {
     if (res) {
       const serverRole = message.guild.roles.get(res.modName);
-      if (res.modName === serverRole.id && message.member.roles.has(serverRole.id) || message.member.hasPermission('ADMINISTRATOR')) {
-        const modEmbed = new Discord.RichEmbed()
+      if ((res.modName === serverRole.id && message.member.roles.has(serverRole.id)) || message.member.hasPermission('ADMINISTRATOR')) {
+        const modEmbed = new discord.RichEmbed()
           .setDescription('Mod Help Menu')
           .setColor('#6dbefd')
           .addField('Mod Commands', 'tempmute | temporarily mutes a user \n unmute | unmute a user \n addcmd | adds a command \n editcmd | edits a custom command \n delcmd | deletes a custom command \n addbanphrase | adds a banphrase \n delbanphrase | deletes a banphrase');
@@ -39,26 +37,22 @@ module.exports.run = async (bot, message, args) => {
         try {
           message.author.send(modEmbed);
         } catch (e) {
-          message.reply("Your DMs are locked. I can't send mod commands");
+          return message.reply("Your DMs are locked. I can't send mod commands");
         }
 
         if (message.member.hasPermission('ADMINISTRATOR')) {
-          const adminEmbed = new Discord.RichEmbed()
+          const adminEmbed = new discord.RichEmbed()
             .setDescription('Admin Help Menu')
             .setColor('#008fff')
             .addField('Admin Commands', 'setmod | sets mod role for the server **IMPORTANT TO SETUP!** \n delmod | deletes a mod role in server \n rc | counts how many members a role has \n setlogger | sets the logger channel in the server \n test | tests if the bot is running \n stats | server count');
 
           try {
-            message.author.send(adminEmbed);
+            return message.author.send(adminEmbed);
           } catch (e) {
-            message.reply("Your DMs are locked. I can't send admin commands");
+            return message.reply("Your DMs are locked. I can't send admin commands");
           }
         }
-      } else {
-
       }
-    } else {
-
     }
   }).catch(err => message.reply(`Error ${err}`));
 };

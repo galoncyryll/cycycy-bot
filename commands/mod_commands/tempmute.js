@@ -12,7 +12,7 @@ module.exports.run = async (bot, message, args, NaM) => {
     if (res) {
       const serverRole = message.guild.roles.get(res.modName);
       const PepeS = bot.emojis.find(emoji => emoji.name === 'PepeS');
-      if (res.modName === serverRole.id && message.member.roles.has(serverRole.id) || message.member.hasPermission('ADMINISTRATOR')) {
+      if ((res.modName === serverRole.id && message.member.roles.has(serverRole.id)) || message.member.hasPermission('ADMINISTRATOR')) {
         if (!toMute) return message.channel.send(`User not found ${NaM}`);
         if (toMute.id === '487797385691398145') {
           return message.reply(`Can't mute my master ${PepeS}`);
@@ -32,7 +32,7 @@ module.exports.run = async (bot, message, args, NaM) => {
               color: '#ff0000',
               permissions: [],
             });
-            message.guild.channels.forEach(async (channel, id) => {
+            message.guild.channels.forEach(async (channel) => {
               await channel.overwritePermissions(muteRole, {
                 SEND_MESSAGES: false,
                 ADD_REACTIONS: false,

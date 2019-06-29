@@ -17,8 +17,11 @@
     "rules": {
         "linebreak-style": 0,
         "no-console": 0,
+        "no-restricted-globals": 0,
+        "no-plusplus": 0,
         "import/no-dynamic-require" : 0,
-        "consistent-return" : "off",
-        "global-require": "off"
+        "consistent-return" : 0,
+        "global-require": 0,
+        "max-len": 0
     }
 }

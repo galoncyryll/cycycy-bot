@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const Pedo = require('../../models/pedoModDB');
 
 module.exports.run = async (bot, message, args, NaM) => {

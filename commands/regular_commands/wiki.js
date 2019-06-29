@@ -6,6 +6,10 @@ module.exports.run = async (bot, message, args) => {
     message.channel.send('```Usage: !=wiki <wiki search>```');
     return;
   }
+  bot.cooldown.add(message.author.id);
+  setTimeout(() => {
+    bot.cooldown.delete(message.author.id);
+  }, 15000);
   const joinedArgs = args.join(' ');
   wiki().page(joinedArgs)
     .then((page) => {
@@ -22,8 +26,7 @@ module.exports.run = async (bot, message, args) => {
               message.channel.send(resultsEmbed);
             }).catch(err => message.reply(`Error ${err}`));
         }).catch(err => message.reply(`Error ${err}`));
-    })
-    .catch(err => message.reply(`Error ${err}`));
+    }).catch(err => message.reply(`Error ${err}`));
 };
 
 module.exports.help = {

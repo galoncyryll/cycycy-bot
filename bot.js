@@ -13,8 +13,11 @@ require('./handlers/onMessageDelete');
 // bot commands collection
 bot.commands = new Discord.Collection();
 
+// global command cooldown
+bot.cooldown = new Set();
+
 // cookie command cooldown
-bot.cooldown = new Map();
+bot.cookieCD = new Map();
 
 // Database
 const db = require('./settings/databaseImport');
@@ -33,15 +36,18 @@ bot.on('error', console.error); // error handler
 bot.on('message', (message) => {
   if (message.author.bot) return;
   if (message.channel.type === 'dm') return;
+  if (bot.cooldown.has(message.author.id)) return;
 
   const { prefix } = botconfig;
   const messageArray = message.content.split(' ');
   const cmd = messageArray[0];
   const args = messageArray.slice(1);
+
   // Emotes
   const NaM = bot.emojis.find(emoji => emoji.name === 'NaM');
   const AYAYA = bot.emojis.find(emoji => emoji.name === 'AYAYA');
   const OMGScoots = bot.emojis.find(emoji => emoji.name === 'OMGScoots');
+  const weirdChamp = bot.emojis.find(emoji => emoji.name === 'WeirdChamp');
 
   // call command handler
   const cmdFile = bot.commands.get(cmd.slice(prefix.length));
@@ -50,8 +56,12 @@ bot.on('message', (message) => {
   // type
   if (message.isMentioned(bot.user)) {
     message.channel.startTyping(100);
-    message.channel.stopTyping(true);
+    setTimeout(() => {
+      message.reply(`what ${weirdChamp}❓`);
+      return message.channel.stopTyping(true);
+    }, 2000);
   }
+
   // AFK checker
   db.Afk.findOne({ userID: message.author.id }).then((result) => {
     if (result) {
@@ -63,7 +73,7 @@ bot.on('message', (message) => {
       const minutes = Math.floor(totalSecs / 60);
       const seconds = totalSecs % 60;
 
-      message.channel.send(`<@${message.author.id}> is back (${hours}h, ${minutes}m and ${Math.trunc(seconds)}s ago): ${result.reason}`);
+      message.channel.send(`${message.author.username} is back (${hours}h, ${minutes}m and ${Math.trunc(seconds)}s ago): ${result.reason}`);
       // Checks if AFK type is gn or afk;
       if (result.afkType === 'afk') return db.Afk.deleteOne({ userID: result.userID }).then(console.log('Message Deleted')).catch(console.log);
 
@@ -72,14 +82,14 @@ bot.on('message', (message) => {
         const afkEmbed = new Discord.RichEmbed()
           .setColor('#f20000')
           .addField(`${message.author.username} you have slept for more than 9hrs`, `"Too much sleep on a regular basis can increase the risk of diabetes, heart disease, stroke and death according to several studies done over the years. Too much is defined as greater than nine hours" ${OMGScoots}`);
-        return message.channel.send(afkEmbed);
-      } if (hours < 6) {
+        message.channel.send(afkEmbed);
+      } else if (hours < 6) {
         const afkEmbed = new Discord.RichEmbed()
           .setColor('#f20000')
           .addField(`${message.author.username} you have slept for less than 6hrs`, `"People who sleep less than 6 hours a night may be at increased risk of cardiovascular disease compared with those who sleep between 7 and 8 hours, suggests a new study published in the Journal of the American College of Cardiology. Poor quality sleep increases the risk of atherosclerosis—plaque buildup in the arteries throughout the body—according to the study." ${OMGScoots}`);
-        return message.channel.send(afkEmbed);
+        message.channel.send(afkEmbed);
       }
-      return db.Afk.deleteOne({ userID: result.userID }).then(console.log('Message Deleted')).catch(console.log);
+      db.Afk.deleteOne({ userID: result.userID }).then(console.log('Message Deleted')).catch(console.log);
     }
   });
 
@@ -105,9 +115,28 @@ bot.on('message', (message) => {
           if (notifyRes.length >= 5) { // message limiter
             return message.reply(`${notifyUser} has already reached the limit of recieving messages ${NaM}`);
           }
-          return notify.save().then(() => message.reply(`<@${res.userID}> is afk but i will send him that message when he types in this server ${OMGScoots} 👍`)).catch(console.log);
+          return notify.save().then(() => message.reply(`${notifyUser.user.username} is afk but i will send him that message when he types in this server ${OMGScoots} 👍`)).catch(console.log);
         });
       }
+    });
+
+    // Custom command checker
+    if (cmd.startsWith(prefix)) {
+      const cmdChk = cmd.slice(2);
+      db.Cmd.findOne({ serverID: message.guild.id, commandName: cmdChk }).then((res) => {
+        if (res) {
+          return message.channel.send(res.commandRes);
+        }
+      }).catch(console.log);
+    }
+
+    // Ban Phrase checker
+    db.BanPhrase.find({ serverID: message.guild.id }).then((res) => {
+      res.forEach((bp) => {
+        if (message.content.toUpperCase().includes(bp.banphrase.toUpperCase())) {
+          return message.delete().then(message.reply(`Your message matched the ban phrase in this server ${weirdChamp}`)).catch(console.log);
+        }
+      });
     });
   }).catch(console.log);
 
@@ -152,7 +181,6 @@ bot.on('message', (message) => {
   db.BanPhrase.find({ serverID: message.guild.id }).then((res) => {
     res.forEach((bp) => {
       if (message.content.toUpperCase().includes(bp.banphrase.toUpperCase())) {
-        const weirdChamp = bot.emojis.find(emoji => emoji.name === 'WeirdChamp');
         return message.delete().then(message.reply(`Your message matched the ban phrase in this server ${weirdChamp}`)).catch(console.log);
       }
     });

@@ -38,7 +38,7 @@ module.exports.run = async (bot, message, args) => {
     .addField('Reason', reason);
   message.channel.send(warnEmbed);
 
-  if (warns[warnUser.id].warnings == 5) {
+  if (warns[warnUser.id].warnings === 5) {
     const muteRole = message.guild.roles.find('name', 'muted');
     if (!muteRole) return message.reply('No mute role found');
 

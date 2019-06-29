@@ -26,7 +26,7 @@ module.exports.run = async (bot, message, args, NaM) => {
     if (results.length >= 5) { // message limiter
       return message.reply(`${notifyUser} has already reached the limit of recieving messages ${NaM}`);
     }
-    notify.save().then(result => message.reply(`${notifyUser} will be notified: ${notifyMsg}`)).catch(err => message.reply(`Error ${err}`));
+    notify.save().then(() => message.reply(`${notifyUser} will be notified: ${notifyMsg}`)).catch(err => message.reply(`Error ${err}`));
   });
 };
 

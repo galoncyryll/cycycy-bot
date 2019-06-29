@@ -1,6 +1,10 @@
 const Discord = require('discord.js');
 
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (bot, message) => {
+  bot.cooldown.add(message.author.id);
+  setTimeout(() => {
+    bot.cooldown.delete(message.author.id);
+  }, 15000);
   const forHEad = bot.emojis.find(emoji => emoji.name === '4HEad');
   const botEmbed = new Discord.RichEmbed()
     .setDescription('Bot Information')

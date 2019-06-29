@@ -1,8 +1,8 @@
-const Discord = require('discord.js');
+const discord = require('discord.js');
 const mongoose = require('mongoose');
 const bot = require('../bot');
 const db = require('../settings/databaseImport');
-const leaveQueueDB = require('../models/leaveQueueDB');
+const LeaveQueueDB = require('../models/leaveQueueDB');
 
 bot.on('guildMemberRemove', async (member) => {
   await member.guild.fetchAuditLogs().then((audit) => {
@@ -13,7 +13,7 @@ bot.on('guildMemberRemove', async (member) => {
         if (auditKickedId === memberKickedId && audit.entries.first().action === 'MEMBER_KICK') {
           const { reason } = audit.entries.first();
           const executor = audit.entries.first().executor.username;
-          const logEmbed = new Discord.RichEmbed()
+          const logEmbed = new discord.RichEmbed()
             .setColor('#ff0000')
             .setAuthor(`[${audit.entries.first().action}] | ${member.user.tag}`, member.user.avatarURL)
             .addField('User', `<@${member.id}>`, true)
@@ -26,7 +26,7 @@ bot.on('guildMemberRemove', async (member) => {
         } if (auditKickedId === memberKickedId && audit.entries.first().action === 'MEMBER_BAN_ADD') {
           const { reason } = audit.entries.first();
           const executor = audit.entries.first().executor.username;
-          const logEmbed = new Discord.RichEmbed()
+          const logEmbed = new discord.RichEmbed()
             .setColor('#ff0000')
             .setAuthor(`[${audit.entries.first().action}] | ${member.user.tag}`, member.user.avatarURL)
             .addField('User', `<@${member.id}>`, true)
@@ -37,22 +37,22 @@ bot.on('guildMemberRemove', async (member) => {
 
           return bot.channels.get(logRes.logChannelID).send(logEmbed);
         } if (logRes.leaveQueueLimit >= 1) {
-          leaveQueueDB.findOne({ serverID: member.guild.id }).then((leaveRes) => {
+          LeaveQueueDB.findOne({ serverID: member.guild.id }).then((leaveRes) => {
             if (leaveRes) {
               if (leaveRes.membersLeft.length >= logRes.leaveQueueLimit) {
-                const bulkLogEmbed = new Discord.RichEmbed()
+                const bulkLogEmbed = new discord.RichEmbed()
                   .setColor('#ff0000')
                   .setAuthor(`[MEMBERS_LEFT] | ${leaveRes.membersLeft.length} members`)
                   .addField('Users', leaveRes.membersLeft.map(members => `<@${members}>`).join(' | '))
                   .addField('Reason', 'Left the server')
                   .setTimestamp();
 
-                return bot.channels.get(logRes.logChannelID).send(bulkLogEmbed).then(() => leaveQueueDB.deleteOne({ serverID: member.guild.id }).then(console.log('guild limit deleted')).catch(err => console.log(err)));
+                return bot.channels.get(logRes.logChannelID).send(bulkLogEmbed).then(() => LeaveQueueDB.deleteOne({ serverID: member.guild.id }).then(console.log('guild limit deleted')).catch(err => console.log(err)));
               }
               leaveRes.membersLeft.push(member.id);
               return leaveRes.save();
             }
-            const memberLeave = new leaveQueueDB({
+            const memberLeave = new LeaveQueueDB({
               _id: mongoose.Types.ObjectId(),
               serverID: member.guild.id,
               serverName: member.guild.name,
@@ -62,7 +62,7 @@ bot.on('guildMemberRemove', async (member) => {
             return memberLeave.save().then(console.log).catch(err => `Error: ${err}`);
           }).catch(err => console.log(err));
         } else {
-          const logEmbed = new Discord.RichEmbed()
+          const logEmbed = new discord.RichEmbed()
             .setColor('#ff0000')
             .setAuthor(`[LEFT] | ${member.user.tag}`, member.user.avatarURL)
             .addField('User', `<@${member.id}>`, true)

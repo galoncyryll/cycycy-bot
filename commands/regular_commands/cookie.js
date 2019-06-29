@@ -1,10 +1,10 @@
 const Discord = require('discord.js');
+const fetch = require('node-fetch');
 
-
-module.exports.run = async (bot, message, args, NaM) => {
-  if (bot.cooldown.has(message.author.id)) {
+module.exports.run = async (bot, message) => {
+  if (bot.cookieCD.has(message.author.id)) {
     const newDate = new Date();
-    const lastDate = bot.cooldown.get(message.author.id);
+    const lastDate = bot.cookieCD.get(message.author.id);
     const ms = newDate - lastDate;
 
     const timeRemaining = 86400000 - ms;
@@ -17,9 +17,9 @@ module.exports.run = async (bot, message, args, NaM) => {
     return message.channel.send(`You can only use this command once per 24hrs (${timeRemainingHrs}hrs, ${timeRemainingMins}m and ${Math.trunc(timeRemainingSecs)}s)`);
   }
   const date = new Date();
-  bot.cooldown.set(message.author.id, date);
+  bot.cookieCD.set(message.author.id, date);
   setTimeout(() => {
-    bot.cooldown.delete(message.author.id);
+    bot.cookieCD.delete(message.author.id);
   }, 86400000);
 
   fetch('http://fortunecookieapi.herokuapp.com/v1/cookie')

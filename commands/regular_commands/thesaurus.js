@@ -1,10 +1,15 @@
 const Discord = require('discord.js');
+const fetch = require('node-fetch');
 
-module.exports.run = async (bot, message, args, NaM) => {
+module.exports.run = async (bot, message, args) => {
   if (args[0] === 'help') {
     message.channel.send('```Usage: !=thesaurus <word>```');
     return;
   }
+  bot.cooldown.add(message.author.id);
+  setTimeout(() => {
+    bot.cooldown.delete(message.author.id);
+  }, 15000);
   const word = args.join(' ');
   fetch(`https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${word}?key=${process.env.DICTIONARY_KEY}`)
     .then(res => res.json())
@@ -35,7 +40,7 @@ module.exports.run = async (bot, message, args, NaM) => {
           .setFooter('Powered by Merriam Webster API', 'https://www.merriam-webster.com/assets/mw/static/app-standalone-images/MW_logo.png');
         await message.channel.send(wordEmbed);
       });
-    }).catch(err => message.channel.send('No Results found.'));
+    }).catch(err => message.channel.send(`Error ${err}`));
 };
 
 module.exports.help = {

@@ -9,7 +9,7 @@ module.exports.run = async (bot, message, args, NaM) => {
   Mods.findOne({ serverID: message.guild.id }).then((res) => {
     if (res) {
       const serverRole = message.guild.roles.get(res.modName);
-      if (res.modName === serverRole.id && message.member.roles.has(serverRole.id) || message.member.hasPermission('ADMINISTRATOR')) {
+      if ((res.modName === serverRole.id && message.member.roles.has(serverRole.id)) || message.member.hasPermission('ADMINISTRATOR')) {
         const unMute = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
         const muteRole = message.guild.roles.find(x => x.name === 'muted');
         if (!unMute) return message.channel.send(`User not found ${NaM}`);

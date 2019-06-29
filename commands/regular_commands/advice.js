@@ -1,7 +1,11 @@
 const Discord = require('discord.js');
+const fetch = require('node-fetch');
 
-
-module.exports.run = async (bot, message, args, NaM) => {
+module.exports.run = async (bot, message) => {
+  bot.cooldown.add(message.author.id);
+  setTimeout(() => {
+    bot.cooldown.delete(message.author.id);
+  }, 15000);
   const OMGScoots = bot.emojis.find(emoji => emoji.name === 'OMGScoots');
 
   fetch('https://api.adviceslip.com/advice')

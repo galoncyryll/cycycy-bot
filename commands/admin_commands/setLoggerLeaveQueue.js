@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const Logger = require('../../models/loggerDB');
 
 module.exports.run = async (bot, message, args, NaM) => {

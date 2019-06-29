@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const BanPhrase = require('../../models/banPhraseDB');
 const Mods = require('../../models/modDBtest');
 
@@ -11,12 +10,12 @@ module.exports.run = async (bot, message, args, NaM) => {
   Mods.findOne({ serverID: message.guild.id }).then((res) => {
     if (res) {
       const serverRole = message.guild.roles.get(res.modName);
-      if (res.modName === serverRole.id && message.member.roles.has(serverRole.id) || message.member.hasPermission('ADMINISTRATOR')) {
+      if ((res.modName === serverRole.id && message.member.roles.has(serverRole.id)) || message.member.hasPermission('ADMINISTRATOR')) {
         const bp = args.join(' ');
         if (!bp) return message.reply(`Please add a word to be unbanned ${NaM}`);
 
-        BanPhrase.deleteOne({ serverID: message.guild.id, banphrase: bp }).then((res) => {
-          if (res.n >= 1) {
+        BanPhrase.deleteOne({ serverID: message.guild.id, banphrase: bp }).then((bpRes) => {
+          if (bpRes.n >= 1) {
             message.reply(`The ban phrase "${bp}" has been deleted ${NaM}`);
           } else {
             message.reply(`Ban phrase doesn't exist ${NaM}`);
