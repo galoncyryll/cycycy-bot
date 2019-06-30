@@ -10,6 +10,7 @@ module.exports.run = async (bot, message, args, NaM) => {
   const afk = new Afk({
     _id: mongoose.Types.ObjectId(),
     userID: message.author.id,
+    userName: message.author.username,
     reason,
     date: new Date(),
     afkType: 'afk',
