@@ -39,24 +39,24 @@ bot.on('guildMemberRemove', async (member) => {
         } if (logRes.leaveQueueLimit >= 1) {
           LeaveQueueDB.findOne({ serverID: member.guild.id }).then((leaveRes) => {
             if (leaveRes) {
-              if (leaveRes.membersLeft.length >= logRes.leaveQueueLimit) {
+              if ((leaveRes.membersLeft.length + 1) >= logRes.leaveQueueLimit) {
                 const bulkLogEmbed = new discord.RichEmbed()
                   .setColor('#ff0000')
                   .setAuthor(`[MEMBERS_LEFT] | ${leaveRes.membersLeft.length} members`)
-                  .addField('Users', leaveRes.membersLeft.map(members => `<@${members}>`).join(' | '))
+                  .addField('Users', `${leaveRes.membersLeft.map(members => `${members}`).join(' | ')} | ${member.displayName}`)
                   .addField('Reason', 'Left the server')
                   .setTimestamp();
 
                 return bot.channels.get(logRes.logChannelID).send(bulkLogEmbed).then(() => LeaveQueueDB.deleteOne({ serverID: member.guild.id }).then(console.log('guild limit deleted')).catch(err => console.log(err)));
               }
-              leaveRes.membersLeft.push(member.id);
+              leaveRes.membersLeft.push(member.displayName);
               return leaveRes.save();
             }
             const memberLeave = new LeaveQueueDB({
               _id: mongoose.Types.ObjectId(),
               serverID: member.guild.id,
               serverName: member.guild.name,
-              membersLeft: [member.id],
+              membersLeft: [member.displayName],
             });
 
             return memberLeave.save().then(console.log).catch(err => `Error: ${err}`);

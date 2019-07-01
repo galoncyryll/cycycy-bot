@@ -24,7 +24,9 @@ module.exports.run = async (bot, message, args, NaM) => {
           commandName: args[0],
           commandRes: resJoined,
         });
+
         const defaultCmds = ['avatar', 'stats', 'uptime', 'restart', 'addcmd', 'delcmd', 'editcmd', 'userinfo', 'advice', 'tempmute', 'translate', 'wiki', 'afk', 'notify', 'unmute', 'help', 'tuck', 'warn', 'serverinfo', 'botinfo', 'catfact', 'test', ''];
+
         Cmd.find({ serverID: message.guild.id, commandName: args[0] }).then((serverRes) => {
           if (serverRes.length >= 1) {
             return message.channel.send('Command already exists');
