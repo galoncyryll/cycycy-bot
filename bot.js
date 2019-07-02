@@ -98,11 +98,11 @@ bot.on('message', (message) => {
     afkRes.forEach((res) => {
       if (message.isMentioned(res.userID)) {
         if (cmd.startsWith(prefix)) return;
-        const notifyUser = message.guild.member(message.mentions.users.first());
+        const notifyUser = message.mentions.users.find(user => user.id === res.userID);
 
         const notify = new db.Notify({
           _id: db.mongoose.Types.ObjectId(),
-          username: notifyUser.user.username,
+          username: notifyUser.username,
           userID: res.userID,
           senderName: message.author.username,
           senderAvatar: message.member.user.avatarURL,
@@ -113,9 +113,9 @@ bot.on('message', (message) => {
 
         db.Notify.find({ userID: res.userID }).then((notifyRes) => {
           if (notifyRes.length >= 5) { // message limiter
-            return message.reply(`${notifyUser} has already reached the limit of recieving messages ${NaM}`);
+            return message.reply(`${notifyUser.username} has already reached the limit of recieving messages ${NaM}`);
           }
-          return notify.save().then(() => message.reply(`${notifyUser.user.username} is afk but i will send him that message when he types in this server ${OMGScoots} 👍`)).catch(console.log);
+          return notify.save().then(() => message.reply(`${notifyUser.username} is afk but i will send him that message when he types in this server ${OMGScoots} 👍`)).catch(console.log);
         });
       }
     });
