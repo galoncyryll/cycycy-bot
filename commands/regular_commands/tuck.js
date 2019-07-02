@@ -6,7 +6,7 @@ module.exports.run = async (bot, message, args, NaM) => {
   const tucked = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
   if (!tucked) return message.channel.send(`User not found ${NaM}`);
 
-  message.channel.send(`<@${message.author.id}> tucked ${tucked} to bed ${NaM} 👉 🛏️`);
+  message.channel.send(`<@${message.author.id}> tucked ${tucked.displayName} to bed ${args[1] ? args[1] : NaM} 👉 🛏️`);
 };
 
 module.exports.help = {
