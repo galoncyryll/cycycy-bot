@@ -167,16 +167,6 @@ bot.on('message', (message) => {
     }
   });
 
-  // Custom command checker
-  if (cmd.startsWith(prefix)) {
-    const cmdChk = cmd.slice(2);
-    return db.Cmd.findOne({ serverID: message.guild.id, commandName: cmdChk }).then((res) => {
-      if (res) {
-        return message.channel.send(res.commandRes);
-      }
-    }).catch(console.log);
-  }
-
   // Ban Phrase checker
   db.BanPhrase.find({ serverID: message.guild.id }).then((res) => {
     res.forEach((bp) => {
