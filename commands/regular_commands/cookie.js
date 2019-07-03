@@ -27,7 +27,7 @@ module.exports.run = async (bot, message) => {
     .then((res) => {
       const cookieEmbed = new Discord.RichEmbed()
         .setColor(3447009)
-        .addField(`🍪 ${message.author.username} here is your cookie for the day`, res[0].fortune.message);
+        .addField(`${message.author.username} here is your cookie for the day 🍪`, res[0].fortune.message);
       message.channel.send(cookieEmbed);
     })
     .catch(err => message.reply(`Error ${err}`));
