@@ -23,7 +23,11 @@ bot.cookieCD = new Map();
 const db = require('./settings/databaseImport');
 
 // connect to MongoDB Atlas
-db.mongoose.connect(process.env.DB_PASS, { useNewUrlParser: true });
+db.mongoose.connect(process.env.DB_PASS, { useNewUrlParser: true }, (err) => {
+  if (err) {
+    bot.channels.get('531967060306165796').send(`Error connecting to DB: ${err}`);
+  }
+});
 
 bot.on('ready', async () => {
   console.log(`${bot.user.username} is online! on ${bot.guilds.size} servers!`);
