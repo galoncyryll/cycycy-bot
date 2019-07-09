@@ -138,7 +138,6 @@ bot.on('message', (message) => {
     db.BanPhrase.find({ serverID: message.guild.id }).then((res) => {
       res.forEach((bp) => {
         if (message.content.toUpperCase().includes(bp.banphrase.toUpperCase())) {
-          console.log('hey');
           return message.delete().then(message.reply(`Your message matched the ban phrase in this server ${weirdChamp}`)).catch(console.log);
         }
       });
