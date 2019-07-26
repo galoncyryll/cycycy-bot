@@ -239,7 +239,8 @@ module.exports.run = async (bot, message, args, NaM) => {
       return message.channel.send(languages);
     }
     const capitalized = args[1].charAt(0).toUpperCase() + args[1].slice(1);
-    if (!args[1].includes(langsReversed[capitalized])) return message.reply(`Language not found ${NaM}`);
+    if (!langsReversed[capitalized]) return message.reply(`Language not found ${NaM}`);
+    if (!args[2]) return message.reply(`Please add arguments ${NaM}`);
 
     const joinedArgs1 = args.slice(2).join(' ');
     const selectedLanguage = langsReversed[capitalized];
