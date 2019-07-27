@@ -7,7 +7,7 @@ module.exports.run = async (bot, message) => {
     .setDescription('Help Menu')
     .setColor('#4286f4')
     .addField('Command Help', 'do **!=<command_name> help** for command usage')
-    .addField('Member Commands', '**serverinfo** | info about server \n **botinfo** | info about bot \n **userinfo** | info about user \n **advice/cookie** | gives you advice or fortune cookie OMGScoots \n **catfact** | random cat facts \n **translate** | automatically translates detected langauge \n **gn/afk** | set status to AFK or sleeping(gives you stats about your sleep time)\n **notify** | notify a specific user \n **tuck** | tuck someone to bed \n **wiki** | wiki search OMGScoots \n **avatar** | shows the user\'s avatar');
+    .addField('Member Commands', '**serverinfo** | info about server \n **botinfo** | info about bot \n **userinfo** | info about user \n **advice/cookie** | gives you advice or fortune cookie OMGScoots \n **catfact** | random cat facts \n **translate** | automatically translates detected langauge \n **gn/afk** | set status to AFK or sleeping(gives you stats about your sleep time)\n **notify** | notify a specific user \n **tuck** | tuck someone to bed \n **wiki** | wiki search OMGScoots \n **avatar** | shows the user\'s avatar \n **news** | show top headlines from any country, category, or custom search');
 
   await message.channel.send(helpEmbed);
 
