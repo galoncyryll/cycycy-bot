@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const NewsAPI = require('newsapi');
 
-const newsapi = new NewsAPI('8813f61069fc4e048c3633565e9f535e');
+const newsapi = new NewsAPI(process.env.NEWS_KEY);
 
 module.exports.run = async (bot, message, args, NaM, OMGScoots) => {
   if (args[0] === 'help') {
