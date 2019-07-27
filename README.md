@@ -109,4 +109,4 @@ Invite link: https://discordapp.com/oauth2/authorize?client_id=53030519413145600
 ### Some mini-games
 
 # Ultimate Goal
-### Build a web dashboard for the bot.
+### ~~Build a web dashboard for the bot.~~ ✔
