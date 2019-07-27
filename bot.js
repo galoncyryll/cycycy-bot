@@ -55,7 +55,7 @@ bot.on('message', (message) => {
 
   // call command handler
   const cmdFile = bot.commands.get(cmd.slice(prefix.length));
-  if (cmdFile && cmd.startsWith(prefix)) cmdFile.run(bot, message, args, NaM);
+  if (cmdFile && cmd.startsWith(prefix)) cmdFile.run(bot, message, args, NaM, OMGScoots);
 
   // type
   if (message.isMentioned(bot.user)) {

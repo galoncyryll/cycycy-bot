@@ -14,6 +14,7 @@
     "dotenv": "^6.2.0",
     "mongoose": "^5.4.12",
     "ms": "^2.1.1",
+    "newsapi": "^2.4.0",
     "node-fetch": "^2.6.0",
     "wikijs": "^5.0.0-alpha.1"
   },
