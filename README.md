@@ -99,7 +99,8 @@ Invite link: https://discordapp.com/oauth2/authorize?client_id=53030519413145600
 
 
 # Upcoming features
-### Weather search
+### ~~Weather Search~~ ✔
+### ~~News Search~~ ✔
 ### Play a music using youtube
 ### Twitch Live Announcements
 ### ~~Wiki search~~ ✔
