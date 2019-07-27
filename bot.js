@@ -49,7 +49,6 @@ bot.on('message', (message) => {
 
   // Emotes
   const NaM = bot.emojis.find(emoji => emoji.name === 'NaM');
-  const AYAYA = bot.emojis.find(emoji => emoji.name === 'AYAYA');
   const OMGScoots = bot.emojis.find(emoji => emoji.name === 'OMGScoots');
   const weirdChamp = bot.emojis.find(emoji => emoji.name === 'WeirdChamp');
 
@@ -172,7 +171,7 @@ bot.on('message', (message) => {
   });
 
   // get rid of weebs NaM
-  if (message.content.includes(AYAYA) || message.content.toUpperCase().includes('AYAYA')) {
+  if (message.content.toUpperCase().includes('AYAYA')) {
     if (message.channel.id === '500399188627161109') return; // weeb dungeon
     const DansGame = bot.emojis.find(emoji => emoji.name === 'DansGame');
     message.channel.send(`${DansGame.toString()} :point_right: :door:`);
