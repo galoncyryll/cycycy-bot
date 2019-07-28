@@ -7,8 +7,7 @@ require('dotenv').config();
 // Read commands directory
 module.exports = bot;
 require('./fsCommandReader');
-require('./handlers/kick');
-require('./handlers/onMessageDelete');
+require('./handlers/index');
 
 // bot commands collection
 bot.commands = new Discord.Collection();
@@ -172,7 +171,7 @@ bot.on('message', (message) => {
 
   // get rid of weebs NaM
   if (message.content.toUpperCase().includes('AYAYA')) {
-    if (message.channel.id === '500399188627161109') return; // weeb dungeon
+    if (message.channel.id === '500399188627161109' || message.channel.id === '579333258999889981') return; // weeb dungeon
     const DansGame = bot.emojis.find(emoji => emoji.name === 'DansGame');
     message.channel.send(`${DansGame.toString()} :point_right: :door:`);
     message.channel.send('WEEBS OUT');
