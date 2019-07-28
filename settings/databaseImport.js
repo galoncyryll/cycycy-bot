@@ -4,6 +4,7 @@ const Afk = require('../models/afkDB');
 const Cmd = require('../models/customCommandsDB');
 const BanPhrase = require('../models/banPhraseDB');
 const Logger = require('../models/loggerDB');
+const Welcome = require('../models/welcomeDB');
 
 module.exports = {
   mongoose,
@@ -12,4 +13,5 @@ module.exports = {
   Cmd,
   BanPhrase,
   Logger,
+  Welcome,
 };
