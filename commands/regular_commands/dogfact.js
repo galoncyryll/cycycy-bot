@@ -3,17 +3,16 @@ const fetch = require('node-fetch');
 
 module.exports.run = async (bot, message, args) => {
   if (args[0] === 'help') {
-    message.channel.send('```Usage: !=catfact```');
+    message.channel.send('```Usage: !=dogfact```');
     return;
   }
-
-  fetch('https://cat-fact.herokuapp.com/facts/random')
+  fetch('https://dog-api.kinduff.com/api/facts')
     .then(res => res.json())
     .then((fact) => {
       const factEmbed = new Discord.RichEmbed()
         .setColor('#1fca05')
-        .setDescription(fact.text)
-        .setFooter('Powered cat fact api');
+        .setDescription(fact.facts[0])
+        .setFooter('Powered by kinduff/dog-api');
 
       return message.channel.send(factEmbed);
     })
@@ -21,5 +20,5 @@ module.exports.run = async (bot, message, args) => {
 };
 
 module.exports.help = {
-  name: 'catfact',
+  name: 'dogfact',
 };
