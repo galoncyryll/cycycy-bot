@@ -49,6 +49,10 @@ Invite link: https://discordapp.com/oauth2/authorize?client_id=53030519413145600
   **Temporarily mutes a user/Unmute a user**
   * Usage: !=tempmute <tag_user> <1s/1m/1h/1d>
   * Usage: !=unmute <tag_user>
+
+  ### Kick
+  **Kicks a user**
+  * Usage: !=kick <tag_user>
   
 ## --- Regular Commands ---
   ### Help
