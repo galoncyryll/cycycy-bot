@@ -14,8 +14,9 @@ module.exports.run = async (bot, message, args, NaM) => {
     .then((weather) => {
       if (weather.cod === '404') return message.reply(`City not found ${NaM}`);
       const {
-        name, sys: { country }, main: { temp, humidity }, clouds: { all }, wind: { speed },
+        name, sys: { country }, main: { temp, humidity }, clouds: { all }, wind: { speed }, dt,
       } = weather;
+      const newDate = new Date(dt * 1000);
 
       return getColors(path.join(__dirname, `./weatherimg/${weather.weather[0].icon}@2x.png`))
         .then((colors) => {
@@ -24,6 +25,7 @@ module.exports.run = async (bot, message, args, NaM) => {
             .setThumbnail(`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`)
             .setTitle('Weather')
             .setDescription(weather.weather[0].description)
+            .addField('🕒 Current Date and Time', newDate)
             .addField('Temperature', `${temp}°C`, true)
             .addField('Humidity', `${humidity}%`, true)
             .addField('Wind Speed', `${speed}m/s`, true)

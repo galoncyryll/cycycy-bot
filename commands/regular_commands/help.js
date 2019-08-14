@@ -32,7 +32,7 @@ module.exports.run = async (bot, message) => {
         const modEmbed = new discord.RichEmbed()
           .setDescription('Mod Help Menu')
           .setColor('#6dbefd')
-          .addField('Mod Commands', 'tempmute | temporarily mutes a user \n unmute | unmute a user \n addcmd | adds a command \n editcmd | edits a custom command \n delcmd | deletes a custom command \n addbanphrase | adds a banphrase \n delbanphrase | deletes a banphrase');
+          .addField('Mod Commands', 'tempmute | temporarily mutes a user \n unmute | unmute a user \n kick | kicks a user \n addcmd | adds a command \n editcmd | edits a custom command \n delcmd | deletes a custom command \n addbanphrase | adds a banphrase \n delbanphrase | deletes a banphrase');
 
         try {
           message.author.send(modEmbed);
