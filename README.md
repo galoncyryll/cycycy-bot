@@ -96,6 +96,18 @@ Invite link: https://discordapp.com/oauth2/authorize?client_id=53030519413145600
   ### Cat facts HYPERS!!
   **Gives you a fact about cats OMGSCoots**
   * Usage: !=catfact
+  
+  ### Random Cat pictures
+  **Gives you a random picture of a cat**
+  * Usage: !=cat
+  
+  ### Dog facts Wowee
+  **Gives you a fact about dogs OMGSCoots**
+  * Usage: !=dogfact
+  
+  ### Random Dpg pictures
+  **Gives you a random picture of a dog**
+  * Usage: !=dog <breed>
 
   ### Thesaurus
   **Gives you the definition of a word and example**
