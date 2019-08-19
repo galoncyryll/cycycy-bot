@@ -14,6 +14,7 @@ module.exports.run = async (bot, message, args, NaM) => {
     reason,
     date: new Date(),
     afkType: 'gn',
+    isTucked: false,
   });
 
   Afk.find({ userID: message.author.id }).then((res) => {
