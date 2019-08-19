@@ -75,7 +75,12 @@ bot.on('message', (message) => {
       const minutes = Math.floor(totalSecs / 60);
       const seconds = totalSecs % 60;
 
-      message.channel.send(`${message.author.username} is back (${hours}h, ${minutes}m and ${Math.trunc(seconds)}s ago): ${result.reason}`);
+      const backEmbed = new Discord.RichEmbed()
+        .setTitle(`${message.author.username} is back (${hours}h, ${minutes}m and ${Math.trunc(seconds)}s ago)`)
+        .addField('Message: ', result.reason || 'null')
+        .setFooter(`tucked by ${result.tucker || 'no one PepeHands'}`)
+        .setColor(message.guild.member(message.author).highestRole.color);
+      message.channel.send(backEmbed);
       // Checks if AFK type is gn or afk;
       if (result.afkType === 'afk') return db.Afk.deleteOne({ userID: result.userID }).then(console.log('Message Deleted')).catch(console.log);
 
@@ -114,7 +119,7 @@ bot.on('message', (message) => {
         });
 
         db.Notify.find({ userID: res.userID }).then((notifyRes) => {
-          if (notifyRes.length >= 5) { // message limiter
+          if (notifyRes.length >= 3) { // message limiter
             return message.reply(`${notifyUser.username} has already reached the limit of recieving messages ${NaM}`);
           }
           return notify.save().then(() => message.reply(`${notifyUser.username} is afk but i will send him that message when he types in this server ${OMGScoots} 👍`)).catch(console.log);

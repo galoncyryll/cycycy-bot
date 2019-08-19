@@ -8,6 +8,7 @@ const afkSchema = mongoose.Schema({
   date: Date,
   afkType: String,
   isTucked: Boolean,
+  tucker: String,
 });
 
 
