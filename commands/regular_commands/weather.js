@@ -20,17 +20,20 @@ module.exports.run = async (bot, message, args, NaM) => {
 
       return getColors(path.join(__dirname, `./weatherimg/${weather.weather[0].icon}@2x.png`))
         .then((colors) => {
+          const weatherDesc = weather.weather[0].description;
+          const weatherDescCapitalized = weatherDesc.charAt(0).toUpperCase() + weatherDesc.slice(1);
+
           const weatherEmbed = new Discord.RichEmbed()
             .setAuthor(`Live Weather Forecast for ${name}, ${country}`)
             .setThumbnail(`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`)
             .setTitle('Weather')
-            .setDescription(weather.weather[0].description)
-            .addField('🕒 Current Date and Time', newDate)
+            .setDescription(weatherDescCapitalized)
             .addField('Temperature', `${temp}°C`, true)
             .addField('Humidity', `${humidity}%`, true)
             .addField('Wind Speed', `${speed}m/s`, true)
             .addField('Cloudiness', `${all}%`, true)
-            .setColor(colors[0].hex());
+            .setColor(colors[0].hex())
+            .setFooter(`🕒 ${newDate}`);
           return message.channel.send(weatherEmbed);
         })
         .catch(err => message.reply(`\`${err}\``));

@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const Afk = require('../../models/afkDB');
 
 module.exports.run = async (bot, message, args, NaM) => {

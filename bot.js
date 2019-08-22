@@ -78,8 +78,9 @@ bot.on('message', (message) => {
       const backEmbed = new Discord.RichEmbed()
         .setTitle(`${message.author.username} is back (${hours}h, ${minutes}m and ${Math.trunc(seconds)}s ago)`)
         .addField('Message: ', result.reason || 'null')
-        .setFooter(`tucked by ${result.tucker || 'no one PepeHands'}`)
         .setColor(message.guild.member(message.author).highestRole.color);
+      if (result.afkType === 'gn') backEmbed.setFooter(`tucked by ${result.tucker || 'no one PepeHands'}`);
+
       message.channel.send(backEmbed);
       // Checks if AFK type is gn or afk;
       if (result.afkType === 'afk') return db.Afk.deleteOne({ userID: result.userID }).then(console.log('Message Deleted')).catch(console.log);
