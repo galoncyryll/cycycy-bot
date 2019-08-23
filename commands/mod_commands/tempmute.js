@@ -45,6 +45,7 @@ module.exports.run = async (bot, message, args, NaM) => {
 
         const muteTime = args[1];
         if (!muteTime || ms(muteTime) === undefined) return message.reply("You didn't specify a time!");
+        if (toMute.roles.has(muteRole.id)) return message.reply(`${toMute.user.username} is already muted`);
 
         toMute.addRole(muteRole);
         message.reply(`<@${toMute.id}> has been muted for ${muteTime}`);
