@@ -1,5 +1,4 @@
 const discord = require('discord.js');
-const Cmd = require('../../models/customCommandsDB');
 const Mods = require('../../models/modDBtest');
 
 module.exports.run = async (bot, message) => {
@@ -40,7 +39,8 @@ module.exports.run = async (bot, message) => {
         }
       }
     }
-  }).catch(err => message.reply(`Error ${err}`));
+  })
+    .catch(err => message.reply(`Error ${err}`));
 };
 
 module.exports.help = {
