@@ -11,6 +11,7 @@ bot.on('messageDelete', (message) => {
           .setAuthor(`[MESSAGE_DELETE] | ${message.author.username}`, message.author.avatarURL)
           .addField('User', `<@${message.author.id}>`, true)
           .addField('Reason', logArgs, true)
+          .addField('Channel', `<#${message.channel.id}>`, true)
           .addField('Message', message.content)
           .setFooter(`MESSAGE ID: ${message.id}`)
           .setTimestamp();
