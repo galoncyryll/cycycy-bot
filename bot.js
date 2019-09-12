@@ -130,12 +130,12 @@ bot.on('message', (message) => {
 
     // Custom command checker
     if (cmd.startsWith(prefix)) {
-      const cmdChk = cmd.slice(2);
+      const cmdChk = cmd.slice(prefix.length);
       db.Cmd.findOne({ serverID: message.guild.id, commandName: cmdChk }).then((res) => {
         if (res) {
           return message.channel.send(res.commandRes);
         }
-      }).catch(console.log);
+      }).catch(err => console.log(err));
     }
 
     // Ban Phrase checker
@@ -177,7 +177,7 @@ bot.on('message', (message) => {
 
   // get rid of weebs NaM
   if (message.content.toUpperCase().includes('AYAYA')) {
-    if (message.channel.id === '500399188627161109' || message.channel.id === '579333258999889981') return; // weeb dungeon
+    if (message.channel.id === '500399188627161109' || message.channel.id === '579333258999889981' || message.content.includes('cycycyAYAYA')) return; // weeb dungeon
     const DansGame = bot.emojis.find(emoji => emoji.name === 'DansGame');
     message.channel.send(`${DansGame.toString()} :point_right: :door:`);
     message.channel.send('WEEBS OUT');
