@@ -82,22 +82,7 @@ bot.on('message', (message) => {
       if (result.afkType === 'gn') backEmbed.setFooter(`tucked by ${result.tucker || 'no one PepeHands'}`);
 
       message.channel.send(backEmbed);
-      // Checks if AFK type is gn or afk;
-      if (result.afkType === 'afk') return db.Afk.deleteOne({ userID: result.userID }).then(console.log('Message Deleted')).catch(console.log);
-
-      // Proceeds if AFK type is gn
-      if (hours >= 9) {
-        const afkEmbed = new Discord.RichEmbed()
-          .setColor('#f20000')
-          .addField(`${message.author.username} you have slept for more than 9hrs`, `"Too much sleep on a regular basis can increase the risk of diabetes, heart disease, stroke and death according to several studies done over the years. Too much is defined as greater than nine hours" ${OMGScoots}`);
-        message.channel.send(afkEmbed);
-      } else if (hours < 6) {
-        const afkEmbed = new Discord.RichEmbed()
-          .setColor('#f20000')
-          .addField(`${message.author.username} you have slept for less than 6hrs`, `"People who sleep less than 6 hours a night may be at increased risk of cardiovascular disease compared with those who sleep between 7 and 8 hours, suggests a new study published in the Journal of the American College of Cardiology. Poor quality sleep increases the risk of atherosclerosis—plaque buildup in the arteries throughout the body—according to the study." ${OMGScoots}`);
-        message.channel.send(afkEmbed);
-      }
-      db.Afk.deleteOne({ userID: result.userID }).then(console.log('Message Deleted')).catch(console.log);
+      return db.Afk.deleteOne({ userID: result.userID }).then(console.log('Message Deleted')).catch(console.log);
     }
   });
 
