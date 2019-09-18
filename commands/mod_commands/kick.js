@@ -3,7 +3,7 @@ const Mods = require('../../models/modDBtest');
 module.exports.run = async (bot, message, args, NaM) => {
   const toKick = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
   if (args[0] === 'help') {
-    return message.reply('Usage: !=kick <user>');
+    return message.reply('Usage: $kick <user>');
   }
 
   Mods.findOne({ serverID: message.guild.id }).then((res) => {
@@ -27,7 +27,7 @@ module.exports.run = async (bot, message, args, NaM) => {
       }
       return message.reply(`You don't have permission for this command ${NaM}`);
     }
-    return message.reply(`You haven't set a mod in this server ${NaM}. To set a mod in this server do !=setmod help.`);
+    return message.reply(`You haven't set a mod in this server ${NaM}. To set a mod in this server do $setmod help.`);
   }).catch(err => message.reply(`Error ${err}`));
 };
 

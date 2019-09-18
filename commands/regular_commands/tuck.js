@@ -2,7 +2,7 @@ const Afk = require('../../models/afkDB');
 
 module.exports.run = async (bot, message, args, NaM) => {
   if (args[0] === 'help') {
-    message.channel.send('```Usage: !=tuck <user>```');
+    message.channel.send('```Usage: $tuck <user>```');
     return;
   }
   const weirdChamp = bot.emojis.find(emoji => emoji.name === 'WeirdChamp');

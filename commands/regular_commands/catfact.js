@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 
 module.exports.run = async (bot, message, args) => {
   if (args[0] === 'help') {
-    message.channel.send('```Usage: !=catfact```');
+    message.channel.send('```Usage: $catfact```');
     return;
   }
 

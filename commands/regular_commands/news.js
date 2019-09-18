@@ -9,11 +9,11 @@ module.exports.run = async (bot, message, args, NaM, OMGScoots) => {
       .setAuthor('News Help Menu', bot.user.displayAvatarURL)
       .setDescription(`**Note:** Atleast one of the parameters **\`country\`**,**\`category\`**, **\`sources\`**, and **\`search\`** are required(**\`res\`** parameter will give you the number of results and defaults to 1, max results is 3). \n The **\`sources\`** parameter can't be combined with **\`country\`** or **\`category\`** parameter. \n **Country codes, sources, and categories can be found here** [https://newsapi.org/sources](https://newsapi.org/sources) ${NaM}`)
       .addBlankField()
-      .addField('(IMPORTANT) Second parameter', '!=news **top**', true)
+      .addField('(IMPORTANT) Second parameter', '$news **top**', true)
       .addField('Definition', '`top` = top headlines')
       .addBlankField()
       .addField(`Category Options ${OMGScoots}`, 'business, entertainment, general, health, science, sports, technology')
-      .addField('Usage', '!=news **top** `country` us `category` sports', true)
+      .addField('Usage', '$news **top** `country` us `category` sports', true)
       .addField('Result', 'Returns the `top headlines` for `sports` in `USA`')
       .setFooter('Need more help? Ask cycycy, my pepega creator');
 
@@ -22,7 +22,7 @@ module.exports.run = async (bot, message, args, NaM, OMGScoots) => {
 
   if (!args[0] === 'top' || !args[0] === 'publishers' || !args[0]) {
     message.channel.send(`Please add \`top\` as the second parameter ${NaM}`);
-    return message.channel.send('Example: `!=news top country us`');
+    return message.channel.send('Example: `$news top country us`');
   }
 
   const country = args.includes('country');

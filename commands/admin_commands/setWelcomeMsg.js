@@ -3,7 +3,7 @@ const Welcome = require('../../models/welcomeDB');
 module.exports.run = async (bot, message, args, NaM) => {
   if (!message.member.hasPermission('ADMINISTRATOR')) return message.reply(`Only administrator have permission for this command ${NaM}`);
   if (args[0] === 'help') {
-    return message.reply('```Usage: !=setwelcomemsg <enable/disable> <channel_name> <welcome_msg>```');
+    return message.reply('```Usage: $setwelcomemsg <enable/disable> <channel_name> <welcome_msg>```');
   }
 
   const logChannelName = args[1];
@@ -21,7 +21,7 @@ module.exports.run = async (bot, message, args, NaM) => {
     isEnabled = null;
   }
 
-  if (isEnabled === null) return message.reply('Please add enable or disable. Use `!=setwelcomemsg help` for setting the logger channel.');
+  if (isEnabled === null) return message.reply('Please add enable or disable. Use `$setwelcomemsg help` for setting the logger channel.');
 
   if (isEnabled && welcomeMsg) {
     Welcome.findOneAndUpdate(

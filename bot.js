@@ -30,7 +30,7 @@ db.mongoose.connect(process.env.DB_PASS, { useNewUrlParser: true }, (err) => {
 
 bot.on('ready', async () => {
   console.log(`${bot.user.username} is online! on ${bot.guilds.size} servers!`);
-  bot.user.setActivity('forsan [!=help]', { type: 'WATCHING' });
+  bot.user.setActivity('forsan [$help]', { type: 'WATCHING' });
   bot.channels.get('531967060306165796').send(`${bot.user.username} is online on ${bot.guilds.size} servers!`); // my discord's bot test channel
 });
 
