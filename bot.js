@@ -108,7 +108,7 @@ bot.on('message', (message) => {
           if (notifyRes.length >= 3) { // message limiter
             return message.reply(`${notifyUser.username} has already reached the limit of recieving messages ${NaM}`);
           }
-          return notify.save().then(() => message.reply(`${notifyUser.username} is afk but i will send him that message when he types in this server ${OMGScoots} 👍`)).catch(console.log);
+          return notify.save().then(() => message.reply(`${notifyUser.username} is afk but i will send them that message when they type in any server im on ${OMGScoots} 👍`)).catch(console.log);
         });
       }
     });
