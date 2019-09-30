@@ -5,6 +5,7 @@ const Cmd = require('../models/customCommandsDB');
 const BanPhrase = require('../models/banPhraseDB');
 const Logger = require('../models/loggerDB');
 const Welcome = require('../models/welcomeDB');
+const AntiWeeb = require('../models/antiweebDB');
 
 module.exports = {
   mongoose,
@@ -14,4 +15,5 @@ module.exports = {
   BanPhrase,
   Logger,
   Welcome,
+  AntiWeeb,
 };

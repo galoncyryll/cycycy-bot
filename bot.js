@@ -161,17 +161,23 @@ bot.on('message', (message) => {
   });
 
   // get rid of weebs NaM
-  if (message.content.toUpperCase().includes('AYAYA')) {
-    if (message.channel.id === '500399188627161109' || message.channel.id === '579333258999889981' || message.content.includes('cycycyAYAYA')) return; // weeb dungeon
-    const DansGame = bot.emojis.find(emoji => emoji.name === 'DansGame');
-    message.channel.send(`${DansGame.toString()} :point_right: :door:`);
-    message.channel.send('WEEBS OUT');
-    message.react(DansGame.id).then(() => {
-      message.react('👉').then(() => {
-        message.react('🚪').catch(console.log);
-      }).catch(console.log);
-    }).catch(console.log);
-  }
+  db.AntiWeeb.findOne({ serverID: message.guild.id }).then((res) => {
+    if (res) {
+      if (res.isEnabled) {
+        if (message.content.toUpperCase().includes('AYAYA')) {
+          if (message.channel.id === '500399188627161109' || message.channel.id === '579333258999889981' || message.content.includes('cycycyAYAYA')) return; // weeb dungeon
+          const DansGame = bot.emojis.find(emoji => emoji.name === 'DansGame');
+          message.channel.send(`${DansGame.toString()} :point_right: :door:`);
+          message.channel.send('WEEBS OUT');
+          message.react(DansGame.id).then(() => {
+            message.react('👉').then(() => {
+              message.react('🚪').catch(console.log);
+            }).catch(console.log);
+          }).catch(console.log);
+        }
+      }
+    }
+  });
 });
 
 bot.login(process.env.BOT_TOKEN);
