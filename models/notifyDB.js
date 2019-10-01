@@ -8,6 +8,7 @@ const notifySchema = mongoose.Schema({
   senderAvatar: String,
   serverName: String,
   notifyMsg: String,
+  msgUrl: String,
   date: Date,
 });
 

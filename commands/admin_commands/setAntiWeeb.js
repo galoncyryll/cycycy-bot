@@ -4,7 +4,7 @@ const AntiWeeb = require('../../models/antiweebDB');
 module.exports.run = async (bot, message, args, NaM) => {
   if (!message.member.hasPermission('ADMINISTRATOR')) return message.reply(`Only administrator have permission for this command ${NaM}`);
   if (args[0] === 'help') {
-    return message.reply('```Usage: $setlogger <enable/disable> <channel_name>(case sensitive)```');
+    return message.reply('```Usage: $setantiweeb <enable/disable>```');
   }
   const isEnabled = args[0];
   const OkayChamp = bot.emojis.find(emoji => emoji.name === 'OkayChamp');

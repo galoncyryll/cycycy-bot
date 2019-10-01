@@ -19,6 +19,7 @@ module.exports.run = async (bot, message, args, NaM) => {
     senderAvatar: message.member.user.avatarURL,
     serverName: message.guild.name,
     notifyMsg,
+    msgUrl: message.url,
     date: new Date(),
   });
 

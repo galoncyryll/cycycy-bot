@@ -101,6 +101,7 @@ bot.on('message', (message) => {
           senderAvatar: message.member.user.avatarURL,
           serverName: message.guild.name,
           notifyMsg: message.content,
+          msgUrl: message.url,
           date: new Date(),
         });
 
@@ -150,6 +151,8 @@ bot.on('message', (message) => {
         const notifyEmbed = new Discord.RichEmbed()
           .setColor('#4e1df2')
           .setAuthor(`${resData.senderName} sent you a message from ${resData.serverName} server:`, resData.senderAvatar)
+          .setTitle('Click here for message link')
+          .setURL(resData.msgUrl)
           .addField(`Message (${hours}h, ${minutes}m and ${Math.trunc(seconds)}s ago): `, resData.notifyMsg);
         return message.channel.send(notifyEmbed)
           .then(() => {
