@@ -16,7 +16,11 @@ module.exports.run = async (bot, message, args, NaM) => {
         return message.reply(`Tucking the tucked ${weirdChamp}`);
       } if (!res[0].isTucked) {
         return Afk.updateOne({ userID: tucked.id }, { isTucked: true, tucker: message.author.username })
-          .then(message.channel.send(`<@${message.author.id}> tucked ${tucked.displayName} to bed ${args[1] ? args[1] : NaM} 👉 🛏️`));
+          .then(() => {
+            message
+              .channel
+              .send(`<@${message.author.id}> tucked ${tucked.displayName} to bed ${args[1] ? args[1] : NaM} 👉 🛏️`);
+          });
       }
     } else {
       return message.reply(`${tucked.displayName} is not even asleep ${weirdChamp}`);
