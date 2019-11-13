@@ -28,14 +28,14 @@ module.exports.run = async (bot, message, args) => {
           message.channel.send(wikiEmbed);
 
           const filter = m => m.author.id === message.author.id;
-          message.channel.awaitMessages(filter, { max: 1 })
+          message.channel.awaitMessages(filter, { max: 1, time: 10000, errors: ['time'] })
             .then(collected => collected.map(collects => collects.content))
             .then((collects) => {
               const selected = collects[0];
               const { results } = data;
 
               results.forEach((result) => {
-                if (result.toLowerCase() === selected.toLowerCase()) {
+                if (result === selected) {
                   return wiki().page(selected)
                     .then((page) => {
                       const resultsEmbed = new Discord.RichEmbed();
@@ -55,7 +55,8 @@ module.exports.run = async (bot, message, args) => {
                     }).catch(err => message.reply(`Error ${err}`));
                 }
               });
-            });
+            })
+            .catch(test => console.log(`err ${test}`));
         } else {
           return message.channel.send(`No article found ${pepeLaugh}`);
         }
