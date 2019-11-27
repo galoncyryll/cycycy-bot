@@ -1,20 +1,10 @@
 const Discord = require('discord.js');
-const http = require('http');
-const express = require('express');
 const botconfig = require('./botconfig.json');
-
-const app = express();
-app.get('/', (request, response) => {
-  console.log(`${Date.now()} Ping Received`);
-  response.sendStatus(200);
-});
-app.listen(process.env.PORT);
-setInterval(() => {
-  http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
-}, 280000);
+require('http').createServer().listen(3000);
+require('dotenv').config();
 
 const bot = new Discord.Client();
-require('dotenv').config();
+
 
 // Read commands directory
 module.exports = bot;
