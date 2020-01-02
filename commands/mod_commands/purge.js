@@ -4,7 +4,7 @@ const db = require('../../settings/databaseImport');
 
 module.exports.run = async (bot, message, args, NaM) => {
   if (args[0] === 'help') {
-    message.channel.send('```Usage: !=purge <number_of_messages>```');
+    message.channel.send('```Usage: $purge <number_of_messages>```');
     return;
   }
   await message.delete();
@@ -37,7 +37,7 @@ module.exports.run = async (bot, message, args, NaM) => {
       }
       return message.reply(`You don't have permission for this command ${NaM}`);
     }
-    return message.reply(`You haven't set a mod in this server ${NaM}. To set a mod in this server do !=setmod help.`);
+    return message.reply(`You haven't set a mod in this server ${NaM}. To set a mod in this server do $setmod help.`);
   }).catch(err => message.reply(`Error ${err}`));
 };
 

@@ -2,8 +2,8 @@ const process = require('process');
 
 module.exports.run = async (bot, message) => {
   if (message.member.id === '487797385691398145') {
-    const Pepega = bot.emojis.find(emoji => emoji.name === 'Pepega').toString();
-    return message.channel.send(`Shutting down... ${Pepega}`)
+    const Pepege = bot.emojis.find(emoji => emoji.name === 'Pepege');
+    return message.channel.send(`Shutting down... ${Pepege}`)
       .then(() => bot.destroy())
       .then(() => process.exit())
       .catch(err => message.reply(`Error ${err}`));

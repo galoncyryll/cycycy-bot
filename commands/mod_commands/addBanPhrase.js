@@ -4,7 +4,7 @@ const Mods = require('../../models/modDBtest');
 
 module.exports.run = async (bot, message, args, NaM) => {
   if (args[0] === 'help') {
-    message.channel.send('```Usage: !=addbanphrase <word>```');
+    message.channel.send('```Usage: $addbanphrase <word>```');
     return;
   }
 
@@ -32,7 +32,7 @@ module.exports.run = async (bot, message, args, NaM) => {
         return message.reply(`You don't have permission for this command ${NaM}`);
       }
     } else {
-      return message.reply(`You haven't set a mod in this server ${NaM}. To set a mod in this server do !=setmod help.`);
+      return message.reply(`You haven't set a mod in this server ${NaM}. To set a mod in this server do $setmod help.`);
     }
   }).catch(err => message.reply(`Error ${err}`));
 };

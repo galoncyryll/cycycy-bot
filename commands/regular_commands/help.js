@@ -1,29 +1,14 @@
 const discord = require('discord.js');
-const Cmd = require('../../models/customCommandsDB');
 const Mods = require('../../models/modDBtest');
 
 module.exports.run = async (bot, message) => {
   const helpEmbed = new discord.RichEmbed()
     .setDescription('Help Menu')
     .setColor('#4286f4')
-    .addField('Command Help', 'do **!=<command_name> help** for command usage')
-    .addField('Member Commands', '**serverinfo** | info about server \n **botinfo** | info about bot \n **userinfo** | info about user \n **advice/cookie** | gives you advice or fortune cookie OMGScoots \n **catfact** | random cat facts \n **translate** | automatically translates detected langauge \n **gn/afk** | set status to AFK or sleeping(gives you stats about your sleep time)\n **notify** | notify a specific user \n **tuck** | tuck someone to bed \n **wiki** | wiki search OMGScoots \n **avatar** | shows the user\'s avatar');
+    .addField('Command Help', 'do **$<command_name> help** for command usage')
+    .addField('Member Commands', '**serverinfo** | info about server \n **botinfo** | info about bot \n **userinfo** | info about user \n **advice/cookie** | gives you advice or fortune cookie OMGScoots \n **catfact** | random cat facts \n **translate** | automatically translates detected langauge \n **gn/afk** | set status to AFK or sleeping(gives you stats about your sleep time)\n **notify** | notify a specific user \n **tuck** | tuck someone to bed \n **wiki** | wiki search OMGScoots \n **avatar** | shows the user\'s avatar \n **news** | show top headlines from any country, category, or custom search \n **weather** | shows current weather for a city \n **commands** | shows server commands');
 
   await message.channel.send(helpEmbed);
-
-  Cmd.find({ serverID: message.guild.id }).then((res) => {
-    const cmdArr = [];
-    res.forEach(serverCmd => cmdArr.push(serverCmd.commandName));
-
-    const joined = cmdArr.join(' \n');
-
-    const serverCmdEmbed = new discord.RichEmbed()
-      .setDescription('Server Commands')
-      .setColor('#23ff74')
-      .addField('Server Specific Commands', `${joined}`);
-
-    return message.channel.send(serverCmdEmbed);
-  }).catch(err => message.reply(`Error ${err}`));
 
   Mods.findOne({ serverID: message.guild.id }).then((res) => {
     if (res) {
@@ -32,7 +17,7 @@ module.exports.run = async (bot, message) => {
         const modEmbed = new discord.RichEmbed()
           .setDescription('Mod Help Menu')
           .setColor('#6dbefd')
-          .addField('Mod Commands', 'tempmute | temporarily mutes a user \n unmute | unmute a user \n addcmd | adds a command \n editcmd | edits a custom command \n delcmd | deletes a custom command \n addbanphrase | adds a banphrase \n delbanphrase | deletes a banphrase');
+          .addField('Mod Commands', 'tempmute | temporarily mutes a user \n unmute | unmute a user \n kick | kicks a user \n addcmd | adds a command \n editcmd | edits a custom command \n delcmd | deletes a custom command \n addbanphrase | adds a banphrase \n delbanphrase | deletes a banphrase');
 
         try {
           message.author.send(modEmbed);
@@ -54,7 +39,8 @@ module.exports.run = async (bot, message) => {
         }
       }
     }
-  }).catch(err => message.reply(`Error ${err}`));
+  })
+    .catch(err => message.reply(`Error ${err}`));
 };
 
 module.exports.help = {

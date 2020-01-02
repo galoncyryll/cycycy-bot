@@ -8,12 +8,14 @@ module.exports.run = async (bot, message, args, NaM) => {
       return message.reply(`You dont have permission for this command ${NaM}`);
     }
     if (args[0] === 'help') {
-      message.channel.send('```Usage: !=pedofy <user>```');
+      message.channel.send('```Usage: $pedofy <user>```');
       return;
     }
 
     const pedo = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
+    const weirdChamp = bot.emojis.find(emoji => emoji.name === 'WeirdChamp');
     if (!pedo) return message.channel.send(`User not found ${NaM}`);
+    if (pedo.id === '487797385691398145') return message.channel.send(`My master is not a pedo ${weirdChamp}`);
 
     let pedoRole = message.guild.roles.find(role => role.name === 'Pedo');
     if (!pedoRole) {

@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 module.exports.run = async (bot, message, args, NaM) => {
   const aUser = message.guild.member(message.mentions.users.first() || message.author);
   if (args[0] === 'help') {
-    message.channel.send('```Usage: !=avatar <user/empty>```');
+    message.channel.send('```Usage: $avatar <user/empty>```');
     return;
   }
   bot.cooldown.add(message.author.id);

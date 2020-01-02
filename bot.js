@@ -1,14 +1,15 @@
 const Discord = require('discord.js');
 const botconfig = require('./botconfig.json');
+require('http').createServer().listen(3000);
+require('dotenv').config();
 
 const bot = new Discord.Client();
-require('dotenv').config();
+
 
 // Read commands directory
 module.exports = bot;
 require('./fsCommandReader');
-require('./handlers/kick');
-require('./handlers/onMessageDelete');
+require('./handlers/index');
 
 // bot commands collection
 bot.commands = new Discord.Collection();
@@ -31,7 +32,7 @@ db.mongoose.connect(process.env.DB_PASS, { useNewUrlParser: true }, (err) => {
 
 bot.on('ready', async () => {
   console.log(`${bot.user.username} is online! on ${bot.guilds.size} servers!`);
-  bot.user.setActivity('forsan [!=help]', { type: 'WATCHING' });
+  bot.user.setActivity('forsan [$help]', { type: 'WATCHING' });
   bot.channels.get('531967060306165796').send(`${bot.user.username} is online on ${bot.guilds.size} servers!`); // my discord's bot test channel
 });
 
@@ -49,13 +50,12 @@ bot.on('message', (message) => {
 
   // Emotes
   const NaM = bot.emojis.find(emoji => emoji.name === 'NaM');
-  const AYAYA = bot.emojis.find(emoji => emoji.name === 'AYAYA');
   const OMGScoots = bot.emojis.find(emoji => emoji.name === 'OMGScoots');
   const weirdChamp = bot.emojis.find(emoji => emoji.name === 'WeirdChamp');
 
   // call command handler
   const cmdFile = bot.commands.get(cmd.slice(prefix.length));
-  if (cmdFile && cmd.startsWith(prefix)) cmdFile.run(bot, message, args, NaM);
+  if (cmdFile && cmd.startsWith(prefix)) cmdFile.run(bot, message, args, NaM, OMGScoots);
 
   // type
   if (message.isMentioned(bot.user)) {
@@ -77,23 +77,14 @@ bot.on('message', (message) => {
       const minutes = Math.floor(totalSecs / 60);
       const seconds = totalSecs % 60;
 
-      message.channel.send(`${message.author.username} is back (${hours}h, ${minutes}m and ${Math.trunc(seconds)}s ago): ${result.reason}`);
-      // Checks if AFK type is gn or afk;
-      if (result.afkType === 'afk') return db.Afk.deleteOne({ userID: result.userID }).then(console.log('Message Deleted')).catch(console.log);
+      const backEmbed = new Discord.RichEmbed()
+        .setTitle(`${message.author.username} is back (${hours}h, ${minutes}m and ${Math.trunc(seconds)}s ago)`)
+        .addField('Message: ', result.reason || 'null')
+        .setColor(message.guild.member(message.author).highestRole.color);
+      if (result.afkType === 'gn') backEmbed.setFooter(`tucked by ${result.tucker || 'no one PepeHands'}`);
 
-      // Proceeds if AFK type is gn
-      if (hours >= 9) {
-        const afkEmbed = new Discord.RichEmbed()
-          .setColor('#f20000')
-          .addField(`${message.author.username} you have slept for more than 9hrs`, `"Too much sleep on a regular basis can increase the risk of diabetes, heart disease, stroke and death according to several studies done over the years. Too much is defined as greater than nine hours" ${OMGScoots}`);
-        message.channel.send(afkEmbed);
-      } else if (hours < 6) {
-        const afkEmbed = new Discord.RichEmbed()
-          .setColor('#f20000')
-          .addField(`${message.author.username} you have slept for less than 6hrs`, `"People who sleep less than 6 hours a night may be at increased risk of cardiovascular disease compared with those who sleep between 7 and 8 hours, suggests a new study published in the Journal of the American College of Cardiology. Poor quality sleep increases the risk of atherosclerosis—plaque buildup in the arteries throughout the body—according to the study." ${OMGScoots}`);
-        message.channel.send(afkEmbed);
-      }
-      db.Afk.deleteOne({ userID: result.userID }).then(console.log('Message Deleted')).catch(console.log);
+      message.channel.send(backEmbed);
+      return db.Afk.deleteOne({ userID: result.userID }).then(console.log('Message Deleted')).catch(console.log);
     }
   });
 
@@ -112,26 +103,27 @@ bot.on('message', (message) => {
           senderAvatar: message.member.user.avatarURL,
           serverName: message.guild.name,
           notifyMsg: message.content,
+          msgUrl: message.url,
           date: new Date(),
         });
 
         db.Notify.find({ userID: res.userID }).then((notifyRes) => {
-          if (notifyRes.length >= 5) { // message limiter
+          if (notifyRes.length >= 3) { // message limiter
             return message.reply(`${notifyUser.username} has already reached the limit of recieving messages ${NaM}`);
           }
-          return notify.save().then(() => message.reply(`${notifyUser.username} is afk but i will send him that message when he types in this server ${OMGScoots} 👍`)).catch(console.log);
+          return notify.save().then(() => message.reply(`${notifyUser.username} is afk but i will send them that message when they type in any server im on ${OMGScoots} 👍`)).catch(console.log);
         });
       }
     });
 
     // Custom command checker
     if (cmd.startsWith(prefix)) {
-      const cmdChk = cmd.slice(2);
+      const cmdChk = cmd.slice(prefix.length);
       db.Cmd.findOne({ serverID: message.guild.id, commandName: cmdChk }).then((res) => {
         if (res) {
           return message.channel.send(res.commandRes);
         }
-      }).catch(console.log);
+      }).catch(err => console.log(err));
     }
 
     // Ban Phrase checker
@@ -161,6 +153,8 @@ bot.on('message', (message) => {
         const notifyEmbed = new Discord.RichEmbed()
           .setColor('#4e1df2')
           .setAuthor(`${resData.senderName} sent you a message from ${resData.serverName} server:`, resData.senderAvatar)
+          .setTitle('Click here for message link')
+          .setURL(resData.msgUrl)
           .addField(`Message (${hours}h, ${minutes}m and ${Math.trunc(seconds)}s ago): `, resData.notifyMsg);
         return message.channel.send(notifyEmbed)
           .then(() => {
@@ -172,17 +166,23 @@ bot.on('message', (message) => {
   });
 
   // get rid of weebs NaM
-  if (message.content.includes(AYAYA) || message.content.toUpperCase().includes('AYAYA')) {
-    if (message.channel.id === '500399188627161109') return; // weeb dungeon
-    const DansGame = bot.emojis.find(emoji => emoji.name === 'DansGame');
-    message.channel.send(`${DansGame.toString()} :point_right: :door:`);
-    message.channel.send('WEEBS OUT');
-    message.react(DansGame.id).then(() => {
-      message.react('👉').then(() => {
-        message.react('🚪').catch(console.log);
-      }).catch(console.log);
-    }).catch(console.log);
-  }
+  db.AntiWeeb.findOne({ serverID: message.guild.id }).then((res) => {
+    if (res) {
+      if (res.isEnabled) {
+        if (message.content.toUpperCase().includes('AYAYA')) {
+          if (message.channel.id === '500399188627161109' || message.channel.id === '579333258999889981' || message.content.includes('cycycyAYAYA')) return; // weeb dungeon
+          const DansGame = bot.emojis.find(emoji => emoji.name === 'DansGame');
+          message.channel.send(`${DansGame.toString()} :point_right: :door:`);
+          message.channel.send('WEEBS OUT');
+          message.react(DansGame.id).then(() => {
+            message.react('👉').then(() => {
+              message.react('🚪').catch(console.log);
+            }).catch(console.log);
+          }).catch(console.log);
+        }
+      }
+    }
+  });
 });
 
 bot.login(process.env.BOT_TOKEN);

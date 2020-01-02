@@ -4,7 +4,7 @@ const Afk = require('../../models/afkDB');
 module.exports.run = async (bot, message, args, NaM) => {
   const reason = args.join(' ');
   if (args[0] === 'help') {
-    message.reply('```Usage: !=gn <message>```');
+    message.reply('```Usage: $gn <message>```');
     return;
   }
   const afk = new Afk({
@@ -14,13 +14,17 @@ module.exports.run = async (bot, message, args, NaM) => {
     reason,
     date: new Date(),
     afkType: 'gn',
+    isTucked: false,
   });
 
   Afk.find({ userID: message.author.id }).then((res) => {
     if (res.length >= 1) { // afk limiter
       return message.reply(`You are already AFK ${NaM}`);
     }
-    afk.save().then(message.reply(`is now sleeping: ${reason}`)).then(message.channel.send(`Somebody tuck him ${NaM}`)).catch(err => message.reply(`Error ${err}`));
+    return afk.save()
+      .then(message.reply(`is now sleeping: ${reason}`))
+      .then(message.channel.send(`Somebody tuck them ${NaM}`))
+      .catch(err => message.reply(`Error ${err}`));
   });
 };
 

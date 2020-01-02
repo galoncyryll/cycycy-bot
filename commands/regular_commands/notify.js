@@ -4,7 +4,7 @@ const Notify = require('../../models/notifyDB');
 module.exports.run = async (bot, message, args, NaM) => {
   const notifyUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
   if (args[0] === 'help') {
-    message.channel.send('```Usage: !=notify <user> <message>```');
+    message.channel.send('```Usage: $notify <user> <message>```');
     return;
   }
   const notifyMsg = args.join(' ').slice(22);
@@ -19,6 +19,7 @@ module.exports.run = async (bot, message, args, NaM) => {
     senderAvatar: message.member.user.avatarURL,
     serverName: message.guild.name,
     notifyMsg,
+    msgUrl: message.url,
     date: new Date(),
   });
 

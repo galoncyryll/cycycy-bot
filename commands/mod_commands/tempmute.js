@@ -4,7 +4,7 @@ const Mods = require('../../models/modDBtest');
 module.exports.run = async (bot, message, args, NaM) => {
   const toMute = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
   if (args[0] === 'help') {
-    message.reply('Usage: !=tempmute <user> <1s/m/h/d>');
+    message.reply('Usage: $tempmute <user> <1s/m/h/d>');
     return;
   }
 
@@ -45,6 +45,7 @@ module.exports.run = async (bot, message, args, NaM) => {
 
         const muteTime = args[1];
         if (!muteTime || ms(muteTime) === undefined) return message.reply("You didn't specify a time!");
+        if (toMute.roles.has(muteRole.id)) return message.reply(`${toMute.user.username} is already muted`);
 
         toMute.addRole(muteRole);
         message.reply(`<@${toMute.id}> has been muted for ${muteTime}`);
@@ -59,7 +60,7 @@ module.exports.run = async (bot, message, args, NaM) => {
         return message.reply(`You don't have permission for this command ${NaM}`);
       }
     } else {
-      return message.reply(`You haven't set a mod in this server ${NaM}. To set a mod in this server do !=setmod help.`);
+      return message.reply(`You haven't set a mod in this server ${NaM}. To set a mod in this server do $setmod help.`);
     }
   }).catch(err => message.reply(`Error ${err}`));
 };

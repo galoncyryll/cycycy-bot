@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 
 module.exports.run = async (bot, message, args, NaM) => {
   if (args[0] === 'help') {
-    message.channel.send('```Usage: !=userinfo <user or blank>```');
+    message.channel.send('```Usage: $userinfo <user or blank>```');
     return;
   }
   bot.cooldown.add(message.author.id);

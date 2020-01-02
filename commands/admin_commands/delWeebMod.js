@@ -3,7 +3,7 @@ const PedoMod = require('../../models/pedoModDB');
 module.exports.run = async (bot, message, args, NaM) => {
   if (!message.member.hasPermission('ADMINISTRATOR')) return message.reply(`Only administrator have permission for this command ${NaM}`);
   if (args[0] === 'help') {
-    return message.reply('```Usage: !=delweebmod <user>```');
+    return message.reply('```Usage: $delweebmod <user>```');
   }
 
   const weebMod = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
