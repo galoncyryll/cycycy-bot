@@ -19,7 +19,7 @@ const handleMessage = (bot, message, cmd, prefix, db, weirdChamp, NaM, OMGScoots
       }
     });
   }).catch(console.log);
-  
+
   // AFK checker
   db.Afk.findOne({ userID: message.author.id }).then((result) => {
     if (result) {
@@ -119,9 +119,8 @@ const handleMessage = (bot, message, cmd, prefix, db, weirdChamp, NaM, OMGScoots
       }
     }
   });
-
-}
+};
 
 module.exports = {
   handleMessage,
-}
+};

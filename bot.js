@@ -1,9 +1,12 @@
 const Discord = require('discord.js');
+const schedule = require('node-schedule');
 const botconfig = require('./botconfig.json');
 require('http').createServer().listen(3000);
 require('dotenv').config();
 
 const bot = new Discord.Client();
+
+// scheduler for 1 day only
 
 
 // Read commands directory
@@ -27,7 +30,7 @@ const db = require('./settings/databaseImport');
 const messageChecker = require('./handlers/messageChecker');
 
 // connect to MongoDB Atlas
-db.mongoose.connect(process.env.DB_PASS, { useNewUrlParser: true }, (err) => {
+db.mongoose.connect(process.env.DB_PASS, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
   if (err) {
     bot.channels.get('531967060306165796').send(`Error connecting to DB: ${err}`);
   }
@@ -77,4 +80,12 @@ bot.on('message', (message) => {
   }
 });
 
-bot.login(process.env.BOT_TOKEN);
+bot.login(process.env.BOT_TOKEN)
+  .then(() => {
+    const date = new Date(2020, 0, 3, 3, 0, 0);
+    const birthDank = bot.emojis.find(emoji => emoji.name === 'birthDank');
+
+    const j = schedule.scheduleJob(date, () => {
+      bot.channels.get('497157837294665729').send(`Happy Birthday to me ${birthDank}`);
+    });
+  });
