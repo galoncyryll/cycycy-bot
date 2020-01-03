@@ -6,9 +6,6 @@ require('dotenv').config();
 
 const bot = new Discord.Client();
 
-// scheduler for 1 day only
-
-
 // Read commands directory
 module.exports = bot;
 require('./fsCommandReader');
@@ -86,6 +83,6 @@ bot.login(process.env.BOT_TOKEN)
     const birthDank = bot.emojis.find(emoji => emoji.name === 'birthDank');
 
     const j = schedule.scheduleJob(date, () => {
-      bot.channels.get('497157837294665729').send(`Happy Birthday to me ${birthDank}`);
+      bot.channels.get('497157837294665729').send(`Happy Birthday to me ${birthDank} please greet me i have no friends`);
     });
   });
