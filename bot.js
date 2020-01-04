@@ -66,23 +66,12 @@ bot.on('message', (message) => {
   // type
   if (message.isMentioned(bot.user)) {
     message.channel.startTyping(100);
-    const birthDank = bot.emojis.find(emoji => emoji.name === 'birthDank');
     console.log(message.content);
-    // setTimeout(() => {
-    if (message.content.toLowerCase().includes('hbd') || message.content.toLowerCase().includes('birthday')) {
-      message.reply(`Thank you sir! ${birthDank}`);
-    }
-    return message.channel.stopTyping(true);
-    // }, 2000);
+    setTimeout(() => {
+      message.reply(`What ${weirdChamp} ❓`);
+      return message.channel.stopTyping(true);
+    }, 2000);
   }
 });
 
-bot.login(process.env.BOT_TOKEN)
-  .then(() => {
-    const date = new Date(2020, 0, 3, 3, 0, 0);
-    const birthDank = bot.emojis.find(emoji => emoji.name === 'birthDank');
-
-    const j = schedule.scheduleJob(date, () => {
-      bot.channels.get('497157837294665729').send(`Happy Birthday to me ${birthDank} please greet me i have no friends`);
-    });
-  });
+bot.login(process.env.BOT_TOKEN);
