@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-const schedule = require('node-schedule');
 const botconfig = require('./botconfig.json');
 require('http').createServer().listen(3000);
 require('dotenv').config();
@@ -65,10 +64,11 @@ bot.on('message', (message) => {
 
   // type
   if (message.isMentioned(bot.user)) {
+    const msgArr = [`What ${weirdChamp} ❓`, `Stop tagging me ${weirdChamp}`, `What do you want ${weirdChamp}`, `Are you actually tagging me ${weirdChamp}`];
     message.channel.startTyping(100);
     console.log(message.content);
     setTimeout(() => {
-      message.reply(`What ${weirdChamp} ❓`);
+      message.reply(msgArr[Math.floor(Math.random() * msgArr.length)]);
       return message.channel.stopTyping(true);
     }, 2000);
   }
