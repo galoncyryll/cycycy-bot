@@ -11,9 +11,14 @@ module.exports.run = async (bot, message) => {
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
 
-  const upTime = `${days} days, ${hours} hours, ${minutes} minutes and ${seconds} seconds`;
+  const upTime = `${days} days(${hours} hours, ${minutes} minutes and ${Math.trunc(seconds)} seconds)`;
 
-  return message.reply(`I have been running for ${upTime}`);
+  return message.channel.send('Pinging...')
+    .then((m) => {
+      const ping = m.createdTimestamp - message.createdTimestamp;
+
+      m.edit(`\`Bot Latency:\` ${ping}ms, \`Uptime:\` ${upTime}`);
+    }).catch(err => message.reply(err));
 };
 
 module.exports.help = {
