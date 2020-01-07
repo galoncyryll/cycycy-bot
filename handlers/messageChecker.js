@@ -4,7 +4,12 @@ const handleMessage = (bot, message, cmd, prefix, db, weirdChamp, NaM, OMGScoots
   // Custom command checker
   if (cmd.startsWith(prefix)) {
     const cmdChk = cmd.slice(prefix.length);
-    db.Cmd.findOne({ serverID: message.guild.id, commandName: cmdChk }).then((res) => {
+    db.Cmd.findOne({
+      serverID: message.guild.id,
+      commandName: {
+        $regex: new RegExp(`^${cmdChk.toLowerCase()}`, 'i'),
+      },
+    }).then((res) => {
       if (res) {
         return message.channel.send(res.commandRes);
       }
@@ -15,7 +20,11 @@ const handleMessage = (bot, message, cmd, prefix, db, weirdChamp, NaM, OMGScoots
   db.BanPhrase.find({ serverID: message.guild.id }).then((res) => {
     res.forEach((bp) => {
       if (message.content.toUpperCase().includes(bp.banphrase.toUpperCase())) {
-        return message.delete().then(message.reply(`Your message matched the ban phrase in this server ${weirdChamp}`)).catch(console.log);
+        return message.delete()
+          .then(
+            message
+              .reply(`Your message matched the ban phrase in this server ${weirdChamp}`),
+          ).catch(console.log);
       }
     });
   }).catch(console.log);
